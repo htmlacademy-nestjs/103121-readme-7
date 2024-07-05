@@ -1,7 +1,7 @@
 # Личный проект «Readme»
 
 * Студент: [Артём Трикашный](https://up.htmlacademy.ru/nodejs-2/7/user/103121).
-* Наставник: `Неизвестно`.
+* Наставник: [Rail Sakhaviev](https://up.htmlacademy.ru/nodejs-2/7/user/1331891).
 
 ---
 
