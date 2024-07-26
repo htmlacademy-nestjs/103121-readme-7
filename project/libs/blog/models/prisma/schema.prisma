@@ -12,3 +12,57 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum PostType {
+  video
+  text
+  quote
+  photo
+  link
+}
+
+model Post {
+  id           String   @id @default(uuid())
+  title        String?
+  video        String?
+  preview      String?
+  text         String?
+  quoteText    String?
+  quoteAuthor  String?
+  photo        String?
+  link         String?
+  description  String?
+  tags         String[]
+  type         PostType
+  createdAt    DateTime @default(now()) @map("created_at")
+  publicatedAt DateTime @default(now()) @map("publicated_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  userId       String @map("user_id")
+  comments     Comment[]
+  likes        Like[]
+
+  @@map("posts")
+}
+
+model Comment {
+  id           String    @id @default(uuid())
+  message      String
+  userId       String    @map("user_id")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  post         Post      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId       String    @map("post_id")
+
+  @@map("comments")
+}
+
+model Like {
+  id           String    @id @default(uuid())
+  post         Post      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId       String    @map("post_id")
+  userId       String    @map("user_id")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  @@map("likes")
+}
