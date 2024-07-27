@@ -14,7 +14,7 @@ DocumentType = ReturnType<T['toPOJO']>
   ) {}
 
   protected createEntityFromDocument(document: DocumentType): T | null {
-    if (! document) {
+    if (!document) {
       return null;
     }
 
