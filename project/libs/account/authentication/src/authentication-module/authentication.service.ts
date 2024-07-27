@@ -30,7 +30,7 @@ export class AuthenticationService {
     const userEntity = await new BlogUserEntity(blogUser)
       .setPassword(password)
 
-    this.blogUserRepository.save(userEntity);
+    await this.blogUserRepository.save(userEntity);
 
     return userEntity;
   }
