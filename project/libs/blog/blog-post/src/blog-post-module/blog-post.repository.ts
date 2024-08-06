@@ -29,9 +29,10 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
 
   public async save(entity: BlogPostEntity): Promise<void> {
     const pojoEntity = entity.toPOJO();
+    const { id, ...dataWithoutId } = pojoEntity;
     const record = await this.client.post.create({
       data: {
-        ...pojoEntity,
+        ...dataWithoutId,
         comments: {
           connect: [],
         },
