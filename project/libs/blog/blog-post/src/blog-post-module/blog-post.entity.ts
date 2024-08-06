@@ -59,8 +59,8 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
 
     const blogLikeFactory = new BlogLikeFactory();
     for (const like of post.likes) {
-      const blogCategoryEntity = blogLikeFactory.create(like);
-      this.likes.push(blogCategoryEntity);
+      const blogLikeEntity = blogLikeFactory.create(like);
+      this.likes.push(blogLikeEntity);
     }
   }
 
