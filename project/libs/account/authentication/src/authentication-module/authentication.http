@@ -13,6 +13,7 @@ Content-Type: application/json
 
 # Get user by ID
 GET http://localhost:3000/api/auth/669b833d176cd8a2e1a66ffe HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjMwMDkyNzMsImV4cCI6MTcyMzAwOTU3M30.0gBcd8PHb2KsYSU1xZiKAgETLaS_hY5SExIJZW75TZc
 
 ###
 
@@ -24,5 +25,11 @@ Content-Type: application/json
   "email": "user@notfound.local",
   "password": "123456"
 }
+
+###
+# Demo route for Pipe
+
+GET http://localhost:3000/api/auth/demo/66b309123f8df8855c6c277a HTTP/1.1.
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjMwMDkyNzMsImV4cCI6MTcyMzAwOTU3M30.0gBcd8PHb2KsYSU1xZiKAgETLaS_hY5SExIJZW75TZc
 
 ###

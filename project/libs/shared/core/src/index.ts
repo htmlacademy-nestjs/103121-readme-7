@@ -8,3 +8,7 @@ export { Comment } from './lib/types/comment.interface';
 export { Like } from './lib/types/like.interface';
 export { PostType } from './lib/types/post-type.enum';
 export { PostStatusType } from './lib/types/post-status-type.enum';
+export { SortDirection } from './lib/interfaces/sort-direction.interface';
+export { PaginationResult } from './lib/interfaces/pagination.interface';
+export { Token } from './lib/interfaces/token.interface';
+export { TokenPayload } from './lib/interfaces/token-payload.interface';
