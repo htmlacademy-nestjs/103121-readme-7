@@ -19,6 +19,7 @@ import { BlogPostQuery } from './blog-post.query';
 import { BlogPostWithPaginationRdo } from './rdo/blog-post-with-pagination.rdo';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { CommentRdo, CreateCommentDto } from '@project/blog-comment';
 
 @Controller('posts')
 export class BlogPostController {
@@ -58,5 +59,11 @@ export class BlogPostController {
   public async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
     const updatedPost = await this.blogPostService.updatePost(id, dto);
     return fillDto(BlogPostRdo, updatedPost.toPOJO());
+  }
+
+  @Post('/:postId/comments')
+  public async createComment(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
+    const newComment = await this.blogPostService.addComment(postId, dto);
+    return fillDto(CommentRdo, newComment.toPOJO());
   }
 }
