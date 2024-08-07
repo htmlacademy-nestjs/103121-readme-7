@@ -1,11 +1,7 @@
-import { IsMongoId, IsString, IsUUID } from 'class-validator';
+import { IsMongoId, IsString } from 'class-validator';
 
 export class CreateLikeDto {
   @IsString()
   @IsMongoId()
   public userId: string;
-
-  @IsString()
-  @IsUUID()
-  public postId: string;
 }

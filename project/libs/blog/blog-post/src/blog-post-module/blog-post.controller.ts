@@ -20,6 +20,7 @@ import { BlogPostWithPaginationRdo } from './rdo/blog-post-with-pagination.rdo';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { CommentRdo, CreateCommentDto } from '@project/blog-comment';
+import { CreateLikeDto, LikeRdo } from '@project/blog-like';
 
 @Controller('posts')
 export class BlogPostController {
@@ -65,5 +66,11 @@ export class BlogPostController {
   public async createComment(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
     const newComment = await this.blogPostService.addComment(postId, dto);
     return fillDto(CommentRdo, newComment.toPOJO());
+  }
+
+  @Post('/:postId/likes')
+  public async createLike(@Param('postId') postId: string, @Body() dto: CreateLikeDto) {
+    const newLike = await this.blogPostService.addLike(postId, dto);
+    return fillDto(LikeRdo, newLike.toPOJO());
   }
 }

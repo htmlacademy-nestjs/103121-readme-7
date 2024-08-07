@@ -14,6 +14,7 @@ import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostQuery } from './blog-post.query';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { BlogPostFactory } from './blog-post.factory';
+import { BlogLikeEntity, CreateLikeDto, BlogLikeFactory, BlogLikeRepository } from '@project/blog-like';
 
 @Injectable()
 export class BlogPostService {
@@ -21,6 +22,8 @@ export class BlogPostService {
     private readonly blogPostRepository: BlogPostRepository,
     private readonly blogCommentRepository: BlogCommentRepository,
     private readonly blogCommentFactory: BlogCommentFactory,
+    private readonly blogLikeRepository: BlogLikeRepository,
+    private readonly blogLikeFactory: BlogLikeFactory,
   ) {}
 
   public async getAllPosts(query?: BlogPostQuery): Promise<PaginationResult<BlogPostEntity>> {
@@ -66,5 +69,13 @@ export class BlogPostService {
     await this.blogCommentRepository.save(newComment);
 
     return newComment;
+  }
+
+  public async addLike(postId: string, dto: CreateLikeDto): Promise<BlogLikeEntity> {
+    const existsPost = await this.getPost(postId);
+    const newLike = this.blogLikeFactory.createFromDto(dto, existsPost.id);
+    await this.blogLikeRepository.save(newLike);
+
+    return newLike;
   }
 }
