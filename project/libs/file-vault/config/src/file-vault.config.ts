@@ -61,4 +61,4 @@ function getConfig(): FileVaultConfig {
   return config;
 }
 
-export default registerAs('application', getConfig);
+export default registerAs('file-vault', getConfig);

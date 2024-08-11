@@ -105,4 +105,4 @@ function getConfig(): NotifyConfig {
   return config;
 }
 
-export default registerAs('application', getConfig);
+export default registerAs('notify', getConfig);

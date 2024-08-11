@@ -18,7 +18,7 @@ import { EmailSubscriberController } from './email-subscriber.controller';
     ]),
     RabbitMQModule.forRootAsync(
       RabbitMQModule,
-      getRabbitMQOptions('application.rabbit')
+      getRabbitMQOptions('notify.rabbit')
     ),
     MailModule,
   ],
