@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
+import { MailModule } from './mail-module/mail.module';
 
 import { getRabbitMQOptions } from '@project/shared-helpers';
 
@@ -8,6 +9,7 @@ import { EmailSubscriberModel, EmailSubscriberSchema } from './email-subscriber.
 import { EmailSubscriberService } from './email-subscriber.service';
 import { EmailSubscriberRepository } from './email-subscriber.repository';
 import { EmailSubscriberFactory } from './email-subscriber.factory';
+import { EmailSubscriberController } from './email-subscriber.controller';
 
 @Module({
   imports: [
@@ -18,6 +20,10 @@ import { EmailSubscriberFactory } from './email-subscriber.factory';
       RabbitMQModule,
       getRabbitMQOptions('application.rabbit')
     ),
+    MailModule,
+  ],
+  controllers: [
+    EmailSubscriberController,
   ],
   providers: [
     EmailSubscriberService,
