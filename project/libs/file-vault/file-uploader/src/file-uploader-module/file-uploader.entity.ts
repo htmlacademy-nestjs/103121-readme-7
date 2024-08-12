@@ -16,7 +16,7 @@ export class FileUploaderEntity extends Entity implements StorableEntity<File> {
   }
 
   public populate(file?: File): void {
-    if (! file) {
+    if (!file) {
       return;
     }
 

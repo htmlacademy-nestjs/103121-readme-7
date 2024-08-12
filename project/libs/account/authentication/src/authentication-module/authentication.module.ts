@@ -8,6 +8,7 @@ import { getJwtOptions } from '@project/account-config';
 import { JwtAccessStrategy } from '../strategies/jwt-access.strategy';
 import { LocalStrategy } from '../strategies/local.strategy';
 import { NotifyModule } from '@project/account-notify';
+import { JwtRefreshStrategy } from '../strategies/jwt-refresh.strategy';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { NotifyModule } from '@project/account-notify';
     AuthenticationService,
     JwtAccessStrategy,
     LocalStrategy,
+    JwtRefreshStrategy,
   ],
 })
 
