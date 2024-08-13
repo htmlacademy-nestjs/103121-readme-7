@@ -9,6 +9,7 @@ import { JwtAccessStrategy } from '../strategies/jwt-access.strategy';
 import { LocalStrategy } from '../strategies/local.strategy';
 import { NotifyModule } from '@project/account-notify';
 import { JwtRefreshStrategy } from '../strategies/jwt-refresh.strategy';
+import { RefreshTokenModule } from '../refresh-token-module/refresh-token.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { JwtRefreshStrategy } from '../strategies/jwt-refresh.strategy';
       inject: [ConfigService],
       useFactory: getJwtOptions,
     }),
-    NotifyModule
+    NotifyModule,
+    RefreshTokenModule,
   ],
   controllers: [AuthenticationController],
   providers: [
