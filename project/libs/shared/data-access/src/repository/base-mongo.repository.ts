@@ -23,10 +23,7 @@ export abstract class BaseMongoRepository<
     const plainObject = document.toObject({
       versionKey: false,
       flattenObjectIds: true,
-      transform: (doc, ret) => {
-        ret.id = doc._id;
-        delete ret._id;
-      }
+      getters: true,
     }) as ReturnType<T['toPOJO']>;
 
     return this.entityFactory.create(plainObject);
