@@ -32,3 +32,9 @@ POST http://localhost:3000/api/auth/refresh HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjM0NjU3MzUsImV4cCI6MTcyNjA1NzczNX0.fACcRBSaTEWtqC8YUnh8782yYvl7GqzujgIuD3UQ0iI
 
 ###
+
+# Check user token
+POST http://localhost:3000/api/auth/check HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjM2MjA1NTEsImV4cCI6MTcyMzYyMDg1MX0.r6nXoumhCzlbDq6ZzhUsoOvgS6QaqZUM2oO8V9-SPKc
+
+###

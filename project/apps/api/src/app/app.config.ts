@@ -1,6 +1,6 @@
 export enum ApplicationServiceURL {
   Users = 'http://localhost:3000/api/auth',
-  Blog = 'http://localhost:3000/api/posts'
+  Blog = 'http://localhost:8000/api/posts'
 }
 
 export const HTTP_CLIENT_MAX_REDIRECTS = 5;
