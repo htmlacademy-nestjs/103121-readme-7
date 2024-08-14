@@ -4,6 +4,7 @@ import {
   HTTP_CLIENT_MAX_REDIRECTS,
   HTTP_CLIENT_TIMEOUT
 } from './app.config';
+import { UsersController } from './users.controller';
 
 @Module({
   imports: [
@@ -12,7 +13,9 @@ import {
       maxRedirects: HTTP_CLIENT_MAX_REDIRECTS,
     }),
   ],
-  controllers: [],
+  controllers: [
+    UsersController
+  ],
   providers: [],
 })
 export class AppModule {}
