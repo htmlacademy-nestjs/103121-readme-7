@@ -82,7 +82,7 @@ export class FileUploaderService {
   public async getFile(fileId: string): Promise<FileUploaderEntity> {
     const existFile = await this.fileRepository.findById(fileId);
 
-    if (! existFile) {
+    if (!existFile) {
       throw new NotFoundException(`File with ${fileId} not found.`);
     }
 
