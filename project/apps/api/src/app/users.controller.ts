@@ -1,17 +1,53 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Post, Req, UseFilters } from '@nestjs/common';
+import 'multer';
+import { Body, Controller, HttpStatus, Post, Req, UploadedFile, UseFilters, UseInterceptors } from '@nestjs/common';
 
-import { LoginUserDto } from '@project/authentication';
+import { CreateUserDto, LoginUserDto } from '@project/authentication';
+import { UploadedFileRdo } from '@project/file-uploader';
 
 import { ApplicationServiceURL } from './app.config';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthenticationResponseMessage } from 'libs/account/authentication/src/authentication-module/authentication.constant';
+import { FileInterceptor } from '@nestjs/platform-express';
+import FormData from 'form-data';
 
+@ApiTags('users')
 @Controller('users')
 @UseFilters(AxiosExceptionFilter)
 export class UsersController {
   constructor(
     private readonly httpService: HttpService
   ) {}
+
+  @ApiResponse({
+    type: CreateUserDto,
+    status: HttpStatus.CREATED,
+    description: AuthenticationResponseMessage.UserCreated,
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: AuthenticationResponseMessage.UserExist,
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  @Post('register')
+  public async register(@Body() user: CreateUserDto, @UploadedFile() file: Express.Multer.File) {
+    if (file) {
+      const formData = new FormData();
+
+      formData.append('file', file.buffer, file.originalname);
+
+      const { data } = await this.httpService.axiosRef.post<UploadedFileRdo>(
+        `${ApplicationServiceURL.File}/upload`,
+        formData
+      );
+
+      user.avatar = data.id;
+    }
+
+    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/register`, user);
+    return data;
+  }
 
   @Post('login')
   public async login(@Body() loginUserDto: LoginUserDto) {
