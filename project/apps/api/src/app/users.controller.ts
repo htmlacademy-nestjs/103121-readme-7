@@ -2,13 +2,12 @@ import { HttpService } from '@nestjs/axios';
 import 'multer';
 import { Body, Controller, HttpStatus, Post, Req, UploadedFile, UseFilters, UseInterceptors } from '@nestjs/common';
 
-import { CreateUserDto, LoginUserDto } from '@project/authentication';
+import { CreateUserDto, LoginUserDto, AuthenticationResponseMessage, LoggedUserRdo } from '@project/authentication';
 import { UploadedFileRdo } from '@project/file-uploader';
 
 import { ApplicationServiceURL } from './app.config';
 import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AuthenticationResponseMessage } from 'libs/account/authentication/src/authentication-module/authentication.constant';
 import { FileInterceptor } from '@nestjs/platform-express';
 import FormData from 'form-data';
 
@@ -49,6 +48,15 @@ export class UsersController {
     return data;
   }
 
+  @ApiResponse({
+    type: LoggedUserRdo,
+    status: HttpStatus.OK,
+    description: AuthenticationResponseMessage.LoggedSuccess,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: AuthenticationResponseMessage.LoggedError,
+  })
   @Post('login')
   public async login(@Body() loginUserDto: LoginUserDto) {
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/login`, loginUserDto);
