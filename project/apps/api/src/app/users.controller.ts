@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import 'multer';
-import { Body, Controller, HttpStatus, Post, Req, UploadedFile, UseFilters, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Post, Req, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 
 import { CreateUserDto, LoginUserDto, AuthenticationResponseMessage, LoggedUserRdo } from '@project/authentication';
 import { UploadedFileRdo } from '@project/file-uploader';
@@ -10,6 +10,10 @@ import { AxiosExceptionFilter } from './filters/axios-exception.filter';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import FormData from 'form-data';
+import { ChangePasswordDto } from 'libs/account/authentication/src/dto/change-password.dto';
+import { UserRdo } from 'libs/account/authentication/src/rdo/user.rdo';
+import { CheckAuthGuard } from './guards/check-auth.guard';
+import { InjectUserIdInterceptor } from '@project/interceptors';
 
 @ApiTags('users')
 @Controller('users')
@@ -63,13 +67,45 @@ export class UsersController {
     return data;
   }
 
+  @ApiResponse({
+    type: UserRdo,
+    status: HttpStatus.CREATED,
+    description: AuthenticationResponseMessage.PasswordChanged,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: AuthenticationResponseMessage.UserNotFound,
+  })
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(InjectUserIdInterceptor)
+  @Post('password')
+  public async updatePassword(
+    @Body() dto: ChangePasswordDto,
+    @Req() req: Request
+  ) {
+    const { data } = await this.httpService.axiosRef.patch(
+      `${ApplicationServiceURL.Users}/password`,
+      dto,
+      {
+        headers: {
+          Authorization: req.headers['authorization'],
+        },
+      }
+    );
+    return data;
+  }
+
   @Post('refresh')
   public async refreshToken(@Req() req: Request) {
-    const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/refresh`, null, {
-      headers: {
-        'Authorization': req.headers['authorization']
+    const { data } = await this.httpService.axiosRef.post(
+      `${ApplicationServiceURL.Users}/refresh`,
+      null,
+      {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
       }
-    });
+    );
 
     return data;
   }

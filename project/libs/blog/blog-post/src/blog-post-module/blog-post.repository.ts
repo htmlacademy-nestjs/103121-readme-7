@@ -75,7 +75,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     });
   }
 
-  public async update(entity: BlogPostEntity): Promise<void> {
+  public async update(entity: BlogPostEntity): Promise<BlogPostEntity> {
     const pojoEntity = entity.toPOJO();
     await this.client.post.update({
       where: { id: entity.id },
@@ -98,6 +98,8 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
         comments: true,
       }
     });
+
+    return undefined;
   }
 
   public async find(query?: BlogPostQuery): Promise<PaginationResult<BlogPostEntity>> {

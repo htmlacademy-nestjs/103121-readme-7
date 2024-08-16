@@ -42,7 +42,7 @@ Content-Type: application/json
 
 {
   "email": "user@notfound.local",
-  "password": "123456"
+  "password": "asdfasdf1"
 }
 
 ###
@@ -63,4 +63,18 @@ Content-Type: application/json
   "description": "Текст анонса",
   "type": "quote"
 }
+
+###
+
+# Change password
+POST http://localhost:3000/api/auth/password HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjM3OTIyNzgsImV4cCI6MTcyMzc5MjU3OH0.iiVjIWnerlIPmqxE2sMsFgMLLMlUMXCFxcXW7QU5F3A
+
+{
+  "password": "asdfasdf1",
+  "newPassword": "asdfasdf12",
+  "userId": "669b833d176cd8a2e1a66ffe"
+}
+
 ###
