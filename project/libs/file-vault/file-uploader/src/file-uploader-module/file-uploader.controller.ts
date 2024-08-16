@@ -25,6 +25,9 @@ export class FileUploaderController {
       }
       cb(null, true);
     },
+    limits: {
+      fileSize: 1024 * 500
+    },
   }))
   public async uploadFile(@UploadedFile() file: Express.Multer.File) {
     const fileEntity = await this.fileUploaderService.saveFile(file);
