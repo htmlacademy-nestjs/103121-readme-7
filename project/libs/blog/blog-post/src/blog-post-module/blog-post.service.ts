@@ -78,4 +78,8 @@ export class BlogPostService {
 
     return newLike;
   }
+
+  public async getCount(id: string) {
+    return await this.blogPostRepository.getUserPostsCount(id);
+  }
 }

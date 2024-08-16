@@ -1,8 +1,8 @@
 import { HttpService } from '@nestjs/axios';
 import 'multer';
-import { Body, Controller, HttpStatus, Post, Req, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, Req, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 
-import { CreateUserDto, LoginUserDto, AuthenticationResponseMessage, LoggedUserRdo } from '@project/authentication';
+import { CreateUserDto, LoginUserDto, AuthenticationResponseMessage, LoggedUserRdo, DetailedUserRdo } from '@project/authentication';
 import { UploadedFileRdo } from '@project/file-uploader';
 
 import { ApplicationServiceURL } from './app.config';
@@ -14,6 +14,7 @@ import { ChangePasswordDto } from 'libs/account/authentication/src/dto/change-pa
 import { UserRdo } from 'libs/account/authentication/src/rdo/user.rdo';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import { InjectUserIdInterceptor } from '@project/interceptors';
+import { MongoIdValidationPipe } from '@project/pipes';
 
 @ApiTags('users')
 @Controller('users')
@@ -79,11 +80,11 @@ export class UsersController {
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(InjectUserIdInterceptor)
   @Post('password')
-  public async updatePassword(
+  public async changePassword(
     @Body() dto: ChangePasswordDto,
     @Req() req: Request
   ) {
-    const { data } = await this.httpService.axiosRef.patch(
+    const { data } = await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.Users}/password`,
       dto,
       {
@@ -108,5 +109,29 @@ export class UsersController {
     );
 
     return data;
+  }
+
+  @ApiResponse({
+    type: DetailedUserRdo,
+    status: HttpStatus.OK,
+    description: AuthenticationResponseMessage.UserFound,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: AuthenticationResponseMessage.UserNotFound,
+  })
+  @Get(':id')
+  public async show(@Param('id', MongoIdValidationPipe) id: string) {
+    const { data } = await this.httpService.axiosRef.get(
+      `${ApplicationServiceURL.Users}/${id}`
+    );
+    const { data: dataCount } = await this.httpService.axiosRef.get(
+      `${ApplicationServiceURL.Blog}/${id}/count`
+    );
+
+    return {
+      ...data,
+      postsCount: dataCount,
+    };
   }
 }

@@ -134,4 +134,10 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
       totalItems: postCount,
     }
   }
+
+  public async getUserPostsCount(userId: string) {
+    return this.getPostCount({
+      userId,
+    });
+  }
 }

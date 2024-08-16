@@ -73,4 +73,11 @@ export class BlogPostController {
     const newLike = await this.blogPostService.addLike(postId, dto);
     return fillDto(LikeRdo, newLike.toPOJO());
   }
+
+  @Get(`/:userId/count`)
+  public async count(@Param('userId') userId: string) {
+    const count = await this.blogPostService.getCount(userId);
+
+    return count;
+  }
 }

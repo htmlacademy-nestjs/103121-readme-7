@@ -62,3 +62,8 @@ Content-Type: application/json
 }
 
 ###
+
+# Get posts count
+GET http://localhost:8000/api/posts/658ede7600f80970fcf9e111/count HTTP/1.1
+
+###
