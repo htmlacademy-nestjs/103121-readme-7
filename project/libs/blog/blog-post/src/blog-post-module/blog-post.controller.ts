@@ -8,7 +8,8 @@ import {
   Param,
   Patch,
   Post,
-  Query
+  Query,
+  UsePipes
 } from '@nestjs/common';
 
 import { fillDto } from '@project/shared-helpers';
@@ -21,6 +22,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { CommentRdo, CreateCommentDto } from '@project/blog-comment';
 import { CreateLikeDto, LikeRdo } from '@project/blog-like';
+import { PostValidationPipe } from './pipes/blog-post-validation.pipe';
 
 @Controller('posts')
 export class BlogPostController {
@@ -44,6 +46,7 @@ export class BlogPostController {
     return fillDto(BlogPostWithPaginationRdo, result);
   }
 
+  @UsePipes(PostValidationPipe)
   @Post('/')
   public async create(@Body() dto: CreatePostDto) {
     const newPost = await this.blogPostService.createPost(dto);
