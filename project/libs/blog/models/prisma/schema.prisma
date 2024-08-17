@@ -28,25 +28,28 @@ enum PostStatusType {
 }
 
 model Post {
-  id           String         @id @default(uuid())
-  title        String?
-  video        String?
-  preview      String?
-  text         String?
-  quoteText    String?
-  quoteAuthor  String?
-  photo        String?
-  link         String?
-  description  String?
-  tags         String[]
-  type         PostType
-  status       PostStatusType @default(published)
-  createdAt    DateTime       @default(now()) @map("created_at")
-  publicatedAt DateTime       @default(now()) @map("publicated_at")
-  updatedAt    DateTime       @updatedAt @map("updated_at")
-  userId       String         @map("user_id")
-  comments     Comment[]
-  likes        Like[]
+  id             String         @id @default(uuid())
+  title          String?
+  video          String?
+  preview        String?
+  text           String?
+  quoteText      String?        @map("quote_text")
+  quoteAuthor    String?        @map("quote_author")
+  photo          String?
+  link           String?
+  description    String?
+  tags           String[]
+  type           PostType
+  status         PostStatusType @default(published)
+  createdAt      DateTime       @default(now()) @map("created_at")
+  publicatedAt   DateTime       @default(now()) @map("publicated_at")
+  updatedAt      DateTime       @updatedAt @map("updated_at")
+  userId         String         @map("user_id")
+  comments       Comment[]
+  likes          Like[]
+  isReposted     Boolean?       @default(false) @map("is_repost")
+  originalId     String?        @map("original_id")
+  originalUserId String?        @map("original_user_id")
 
   @@map("posts")
 }
