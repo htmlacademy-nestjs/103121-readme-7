@@ -49,4 +49,13 @@ export class BlogPostRdo {
 
   @Expose()
   public tags?: string[];
+
+  @Expose()
+  public isReposted?: boolean;
+
+  @Expose()
+  public originalId?: string;
+
+  @Expose()
+  public originalUserId?: string;
 }

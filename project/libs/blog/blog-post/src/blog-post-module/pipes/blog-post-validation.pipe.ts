@@ -7,7 +7,7 @@ import { CreateVideoPostDto } from '../dto/create-video-post.dto';
 import { CreateTextPostDto } from '../dto/create-text-post.dto';
 import { CreateQuotePostDto } from '../dto/create-quote-post.dto';
 import { CreatePhotoPostDto } from '../dto/create-photo-post.dto';
-import { CreateLinkPostDto } from '../dto/create-link-lost.dto';
+import { CreateLinkPostDto } from '../dto/create-link-post.dto';
 
 @Injectable()
 export class PostValidationPipe implements PipeTransform {

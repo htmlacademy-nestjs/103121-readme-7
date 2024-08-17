@@ -23,6 +23,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { CommentRdo, CreateCommentDto } from '@project/blog-comment';
 import { CreateLikeDto, LikeRdo } from '@project/blog-like';
 import { PostValidationPipe } from './pipes/blog-post-validation.pipe';
+import { CreateRepostDto } from './dto/create-repost.dto';
 
 @Controller('posts')
 export class BlogPostController {
@@ -63,6 +64,13 @@ export class BlogPostController {
   public async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
     const updatedPost = await this.blogPostService.updatePost(id, dto);
     return fillDto(BlogPostRdo, updatedPost.toPOJO());
+  }
+
+  @Post(`/:id/reposts`)
+  public async createRepost(@Param('id') id: string, @Body() dto: CreateRepostDto) {
+    const repost = await this.blogPostService.createRepost(id, dto);
+
+    return fillDto(BlogPostRdo, repost.toPOJO());
   }
 
   @Post('/:postId/comments')

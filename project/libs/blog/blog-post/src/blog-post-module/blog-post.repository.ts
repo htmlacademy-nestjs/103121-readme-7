@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 import { PaginationResult, Post, PostStatusType } from '@project/shared-core';
@@ -92,6 +92,9 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
         tags: pojoEntity.tags,
         type: pojoEntity.type,
         status: pojoEntity.status,
+        isReposted: pojoEntity.isReposted,
+        originalId: pojoEntity.originalId,
+        originalUserId: pojoEntity.originalUserId,
       },
       include: {
         likes: true,
@@ -139,5 +142,21 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     return this.getPostCount({
       userId,
     });
+  }
+
+  public async findExistedRepost(originalId: string, userId: string) {
+    const document = await this.client.post.findFirst({
+      where: {
+        originalId,
+        userId,
+        isReposted: true,
+      },
+    });
+
+    if (document) {
+      throw new ConflictException('Post already reposted');
+    }
+
+    return document;
   }
 }

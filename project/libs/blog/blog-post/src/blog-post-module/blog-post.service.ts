@@ -15,6 +15,7 @@ import { BlogPostQuery } from './blog-post.query';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { BlogPostFactory } from './blog-post.factory';
 import { BlogLikeEntity, CreateLikeDto, BlogLikeFactory, BlogLikeRepository } from '@project/blog-like';
+import { CreateRepostDto } from './dto/create-repost.dto';
 
 @Injectable()
 export class BlogPostService {
@@ -81,5 +82,26 @@ export class BlogPostService {
 
   public async getCount(id: string) {
     return await this.blogPostRepository.getUserPostsCount(id);
+  }
+
+  public async createRepost(id: string, dto: CreateRepostDto) {
+    const existsPost = await this.blogPostRepository.findById(id);
+
+    await this.blogPostRepository.findExistedRepost(id, dto.userId);
+
+    const repost = {
+      ...existsPost,
+      userId: dto.userId,
+      isReposted: true,
+      originalId: id,
+      originalUserId: existsPost.userId,
+      updatedAt: new Date(),
+      createdAt: new Date(),
+    };
+    const newPost = BlogPostFactory.createFromCreatePostDto(repost);
+
+    await this.blogPostRepository.save(newPost);
+
+    return newPost;
   }
 }

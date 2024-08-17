@@ -119,3 +119,13 @@ Content-Type: application/json
 GET http://localhost:8000/api/posts/658ede7600f80970fcf9e111/count HTTP/1.1
 
 ###
+
+# Repost post by id
+POST http://localhost:8000/api/posts/9e68447e-e808-46da-a6b7-6311c1fc6843/reposts HTTP/1.1
+Content-Type: application/json
+
+{
+  "userId": "65990102bb965b742900ba59"
+}
+
+###
