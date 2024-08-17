@@ -19,4 +19,34 @@ export class BlogPostRdo {
 
   @Expose()
   public likes: Like[]
+
+  @Expose()
+  public title?: string;
+
+  @Expose()
+  public video?: string;
+
+  @Expose()
+  public preview?: string;
+
+  @Expose()
+  public text?: string;
+
+  @Expose()
+  public quoteText?: string;
+
+  @Expose()
+  public quoteAuthor?: string;
+
+  @Expose()
+  public photo?: string;
+
+  @Expose()
+  public link?: string;
+
+  @Expose()
+  public description?: string;
+
+  @Expose()
+  public tags?: string[];
 }
