@@ -1,11 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { PaginationResult } from '@project/shared-core';
 import {
   BlogCommentRepository,
   CreateCommentDto,
   BlogCommentEntity,
-  BlogCommentFactory
+  BlogCommentFactory,
+  DeleteCommentDto
 } from '@project/blog-comment';
 
 import { BlogPostRepository } from './blog-post.repository';
@@ -72,15 +73,25 @@ export class BlogPostService {
     return newComment;
   }
 
+  public async deleteComment(dto: DeleteCommentDto): Promise<void> {
+    const existsComment = await this.blogCommentRepository.findById(dto.id);
+
+    if (existsComment.userId !== dto.userId) {
+      throw new BadRequestException('You can delete only your comments');
+    }
+
+    await this.blogCommentRepository.deleteById(dto.id);
+  }
+
   public async addLike(postId: string, dto: LikeDto): Promise<BlogLikeEntity> {
     const existsPost = await this.getPost(postId);
 
     if (existsPost.likes.some((like) => like.userId === dto.userId)) {
-      throw new NotFoundException('Like already exists');
+      throw new BadRequestException('Like already exists');
     }
 
     if (existsPost.status !== 'published') {
-      throw new NotFoundException('Post is not published');
+      throw new BadRequestException('Post is not published');
     }
 
     const newLike = this.blogLikeFactory.createFromDto(dto, existsPost.id);

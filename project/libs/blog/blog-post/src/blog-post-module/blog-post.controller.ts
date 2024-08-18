@@ -20,7 +20,7 @@ import { BlogPostQuery } from './blog-post.query';
 import { BlogPostWithPaginationRdo } from './rdo/blog-post-with-pagination.rdo';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { CommentRdo, CreateCommentDto } from '@project/blog-comment';
+import { CommentRdo, CreateCommentDto, DeleteCommentDto } from '@project/blog-comment';
 import { LikeDto, LikeRdo } from '@project/blog-like';
 import { PostValidationPipe } from './pipes/blog-post-validation.pipe';
 import { CreateRepostDto } from './dto/create-repost.dto';
@@ -77,6 +77,11 @@ export class BlogPostController {
   public async createComment(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
     const newComment = await this.blogPostService.addComment(postId, dto);
     return fillDto(CommentRdo, newComment.toPOJO());
+  }
+
+  @Delete('/:postId/comments')
+  public async deleteComment(@Body() dto: DeleteCommentDto) {
+    await this.blogPostService.deleteComment(dto);
   }
 
   @Post('/:postId/likes')
