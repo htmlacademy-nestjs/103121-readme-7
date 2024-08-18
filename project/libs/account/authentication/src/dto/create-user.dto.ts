@@ -34,8 +34,8 @@ export class CreateUserDto {
   public password: string;
 
   @ApiProperty({
-    description: 'User avatar path',
-    example: '/images/user.png'
+    description: 'User avatar id',
+    example: '669b833d176cd8a2e1a66ffe'
   })
   @IsString()
   @IsOptional()

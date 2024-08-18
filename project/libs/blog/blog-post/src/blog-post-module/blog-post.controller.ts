@@ -24,6 +24,8 @@ import { CommentRdo, CreateCommentDto, DeleteCommentDto } from '@project/blog-co
 import { LikeDto, LikeRdo } from '@project/blog-like';
 import { PostValidationPipe } from './pipes/blog-post-validation.pipe';
 import { CreateRepostDto } from './dto/create-repost.dto';
+import { ApiResponse } from '@nestjs/swagger';
+import { BlogPostResponseMessage } from './blog-post.constant';
 
 @Controller('posts')
 export class BlogPostController {
@@ -84,12 +86,31 @@ export class BlogPostController {
     await this.blogPostService.deleteComment(dto);
   }
 
+  @ApiResponse({
+    type: LikeRdo,
+    status: HttpStatus.CREATED,
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: BlogPostResponseMessage.LikeExists,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: BlogPostResponseMessage.PostIsNotPublished,
+  })
   @Post('/:postId/likes')
   public async createLike(@Param('postId') postId: string, @Body() dto: LikeDto) {
     const newLike = await this.blogPostService.addLike(postId, dto);
     return fillDto(LikeRdo, newLike.toPOJO());
   }
 
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: BlogPostResponseMessage.LikeNotFound,
+  })
   @Delete('/:postId/likes')
   @HttpCode(HttpStatus.NO_CONTENT)
   public async deleteLike(@Param('postId') postId: string, @Body() dto: LikeDto) {

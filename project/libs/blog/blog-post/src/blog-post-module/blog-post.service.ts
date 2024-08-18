@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { PaginationResult } from '@project/shared-core';
 import {
@@ -17,6 +17,8 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { BlogPostFactory } from './blog-post.factory';
 import { BlogLikeEntity, LikeDto, BlogLikeFactory, BlogLikeRepository } from '@project/blog-like';
 import { CreateRepostDto } from './dto/create-repost.dto';
+import { BlogPostResponseMessage } from './blog-post.constant';
+import { PostStatusType } from '@prisma/client';
 
 @Injectable()
 export class BlogPostService {
@@ -87,11 +89,11 @@ export class BlogPostService {
     const existsPost = await this.getPost(postId);
 
     if (existsPost.likes.some((like) => like.userId === dto.userId)) {
-      throw new BadRequestException('Like already exists');
+      throw new ConflictException(BlogPostResponseMessage.LikeExists);
     }
 
-    if (existsPost.status !== 'published') {
-      throw new BadRequestException('Post is not published');
+    if (existsPost.status !== PostStatusType.published) {
+      throw new BadRequestException(BlogPostResponseMessage.PostIsNotPublished);
     }
 
     const newLike = this.blogLikeFactory.createFromDto(dto, existsPost.id);
