@@ -11,9 +11,7 @@ import {
   Query,
   UsePipes
 } from '@nestjs/common';
-
 import { fillDto } from '@project/shared-helpers';
-
 import { BlogPostService } from './blog-post.service';
 import { BlogPostRdo } from './rdo/blog-post.rdo';
 import { BlogPostQuery } from './blog-post.query';
@@ -24,9 +22,10 @@ import { CommentRdo, CreateCommentDto, DeleteCommentDto } from '@project/blog-co
 import { LikeDto, LikeRdo } from '@project/blog-like';
 import { PostValidationPipe } from './pipes/blog-post-validation.pipe';
 import { CreateRepostDto } from './dto/create-repost.dto';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BlogPostResponseMessage } from './blog-post.constant';
 
+@ApiTags('posts')
 @Controller('posts')
 export class BlogPostController {
   constructor (

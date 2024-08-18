@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  HttpStatus,
   Param,
   Post,
   Req,
@@ -14,13 +15,32 @@ import { HttpService } from '@nestjs/axios';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import { InjectUserIdInterceptor } from '@project/interceptors';
 import { ApplicationServiceURL } from './app.config';
-import { LikeDto } from '@project/blog-like';
+import { LikeDto, LikeRdo } from '@project/blog-like';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { BlogPostResponseMessage } from 'libs/blog/blog-post/src/blog-post-module/blog-post.constant';
 
+@ApiTags('likes')
 @Controller('likes')
 @UseFilters(AxiosExceptionFilter)
 export class LikeController {
   constructor(private readonly httpService: HttpService) {}
 
+  @ApiResponse({
+    type: LikeRdo,
+    status: HttpStatus.CREATED,
+  })
+  @ApiResponse({
+    status: HttpStatus.CONFLICT,
+    description: BlogPostResponseMessage.LikeExists,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: BlogPostResponseMessage.PostIsNotPublished,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: BlogPostResponseMessage.Unauthorized,
+  })
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(InjectUserIdInterceptor)
   @Post(`:postId`)
@@ -38,6 +58,17 @@ export class LikeController {
     return data;
   }
 
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: BlogPostResponseMessage.LikeNotFound,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: BlogPostResponseMessage.Unauthorized,
+  })
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(InjectUserIdInterceptor)
   @Delete(`:postId`)

@@ -6,7 +6,7 @@ export const DEFAULT_PAGE_COUNT = 1;
 
 export const BlogPostResponseMessage = {
   LikeNotFound: 'Like not found',
-  UserNotLoggedIn: 'User is not logged in',
+  Unauthorized: 'Unauthorized',
   LikeExists: 'Like already exists',
   PostIsNotPublished: 'Post is not published',
 } as const;
