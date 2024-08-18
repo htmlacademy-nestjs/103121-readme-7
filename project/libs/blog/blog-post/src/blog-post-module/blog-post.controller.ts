@@ -21,7 +21,7 @@ import { BlogPostWithPaginationRdo } from './rdo/blog-post-with-pagination.rdo';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { CommentRdo, CreateCommentDto } from '@project/blog-comment';
-import { CreateLikeDto, LikeRdo } from '@project/blog-like';
+import { LikeDto, LikeRdo } from '@project/blog-like';
 import { PostValidationPipe } from './pipes/blog-post-validation.pipe';
 import { CreateRepostDto } from './dto/create-repost.dto';
 
@@ -80,9 +80,15 @@ export class BlogPostController {
   }
 
   @Post('/:postId/likes')
-  public async createLike(@Param('postId') postId: string, @Body() dto: CreateLikeDto) {
+  public async createLike(@Param('postId') postId: string, @Body() dto: LikeDto) {
     const newLike = await this.blogPostService.addLike(postId, dto);
     return fillDto(LikeRdo, newLike.toPOJO());
+  }
+
+  @Delete('/:postId/likes')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async deleteLike(@Param('postId') postId: string, @Body() dto: LikeDto) {
+    await this.blogPostService.deleteLike(postId, dto);
   }
 
   @Get(`/:userId/count`)

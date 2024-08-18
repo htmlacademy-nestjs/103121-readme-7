@@ -14,7 +14,7 @@ import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostQuery } from './blog-post.query';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { BlogPostFactory } from './blog-post.factory';
-import { BlogLikeEntity, CreateLikeDto, BlogLikeFactory, BlogLikeRepository } from '@project/blog-like';
+import { BlogLikeEntity, LikeDto, BlogLikeFactory, BlogLikeRepository } from '@project/blog-like';
 import { CreateRepostDto } from './dto/create-repost.dto';
 
 @Injectable()
@@ -72,12 +72,22 @@ export class BlogPostService {
     return newComment;
   }
 
-  public async addLike(postId: string, dto: CreateLikeDto): Promise<BlogLikeEntity> {
+  public async addLike(postId: string, dto: LikeDto): Promise<BlogLikeEntity> {
     const existsPost = await this.getPost(postId);
+
+    if (existsPost.likes.some((like) => like.userId === dto.userId)) {
+      throw new NotFoundException('Like already exists');
+    }
+
     const newLike = this.blogLikeFactory.createFromDto(dto, existsPost.id);
     await this.blogLikeRepository.save(newLike);
 
     return newLike;
+  }
+
+  public async deleteLike(postId: string, dto: LikeDto): Promise<void> {
+    const existsPost = await this.getPost(postId);
+    await this.blogLikeRepository.delete(existsPost.id, dto.userId);
   }
 
   public async getCount(id: string) {

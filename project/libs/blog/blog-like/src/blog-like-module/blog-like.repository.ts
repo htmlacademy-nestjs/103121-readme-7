@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { PrismaClientService } from '@project/blog-models';
 import { Like } from '@project/shared-core';
@@ -22,6 +22,25 @@ export class BlogLikeRepository extends BasePostgresRepository<BlogLikeEntity, L
     });
 
     entity.id = record.id;
+  }
+
+  public async delete(postId: string, userId: string): Promise<void> {
+    const existsLike = await this.client.like.findFirst({
+      where: {
+          userId,
+          postId,
+      },
+    });
+
+    if (existsLike) {
+      await this.client.like.delete({
+        where: {
+          id: existsLike.id,
+        }
+      });
+    } else {
+      throw new NotFoundException('Like not found');
+    }
   }
 
   public async findById(id: string): Promise<BlogLikeEntity> {
