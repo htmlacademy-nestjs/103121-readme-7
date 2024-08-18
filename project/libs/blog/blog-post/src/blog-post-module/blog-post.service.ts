@@ -79,6 +79,10 @@ export class BlogPostService {
       throw new NotFoundException('Like already exists');
     }
 
+    if (existsPost.status !== 'published') {
+      throw new NotFoundException('Post is not published');
+    }
+
     const newLike = this.blogLikeFactory.createFromDto(dto, existsPost.id);
     await this.blogLikeRepository.save(newLike);
 
