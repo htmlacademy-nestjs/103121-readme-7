@@ -23,7 +23,7 @@ Content-Type: application/json
   "title": "Very interesting video about cats",
   "type": "video",
   "video": "https://www.youtube.com/123",
-  "tags": ["cats", "video"]
+  "tags": ["Cats", "Cats"]
 }
 
 ###

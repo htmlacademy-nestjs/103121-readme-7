@@ -29,10 +29,13 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
 
   public async save(entity: BlogPostEntity): Promise<void> {
     const pojoEntity = entity.toPOJO();
-    const { id, ...dataWithoutId } = pojoEntity;
+    const { id, tags, ...clearedData } = pojoEntity;
+    const uniqueTags = Array.from(new Set(tags.map(tag => tag.toLowerCase())));
+    console.log(uniqueTags);
     const record = await this.client.post.create({
       data: {
-        ...dataWithoutId,
+        ...clearedData,
+        tags: uniqueTags,
         comments: {
           connect: [],
         },
@@ -43,6 +46,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     });
 
     entity.id = record.id;
+    entity.tags = record.tags;
   }
 
   public async deleteById(id: string): Promise<void> {
