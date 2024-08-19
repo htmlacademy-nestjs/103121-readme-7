@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { PrismaClientService } from '@project/blog-models';
 import { Like } from '@project/shared-core';
@@ -6,6 +6,7 @@ import { Like } from '@project/shared-core';
 import { BlogLikeEntity } from './blog-like.entity';
 import { BlogLikeFactory } from './blog-like.factory';
 import { BasePostgresRepository } from '@project/data-access';
+import { BlogLikeResponseMessage } from './blog-like.constant';
 
 @Injectable()
 export class BlogLikeRepository extends BasePostgresRepository<BlogLikeEntity, Like> {
@@ -39,7 +40,7 @@ export class BlogLikeRepository extends BasePostgresRepository<BlogLikeEntity, L
         }
       });
     } else {
-      throw new NotFoundException('Like not found');
+      throw new NotFoundException(BlogLikeResponseMessage.LikeNotFound);
     }
   }
 
@@ -51,7 +52,7 @@ export class BlogLikeRepository extends BasePostgresRepository<BlogLikeEntity, L
     });
 
     if (!document) {
-      throw new NotFoundException(`Like with id ${id} not found.`);
+      throw new NotFoundException(BlogLikeResponseMessage.LikeNotFound);
     }
 
     return this.createEntityFromDocument(document);

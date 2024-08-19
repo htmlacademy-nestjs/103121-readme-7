@@ -6,7 +6,8 @@ import {
   CreateCommentDto,
   BlogCommentEntity,
   BlogCommentFactory,
-  DeleteCommentDto
+  DeleteCommentDto,
+  BlogCommentResponseMessage
 } from '@project/blog-comment';
 
 import { BlogPostRepository } from './blog-post.repository';
@@ -79,7 +80,7 @@ export class BlogPostService {
     const existsComment = await this.blogCommentRepository.findById(dto.id);
 
     if (existsComment.userId !== dto.userId) {
-      throw new BadRequestException('You can delete only your comments');
+      throw new BadRequestException(BlogCommentResponseMessage.CommentIsNotYour);
     }
 
     await this.blogCommentRepository.deleteById(dto.id);

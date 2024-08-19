@@ -18,8 +18,8 @@ import { BlogPostQuery } from './blog-post.query';
 import { BlogPostWithPaginationRdo } from './rdo/blog-post-with-pagination.rdo';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { CommentRdo, CreateCommentDto, DeleteCommentDto } from '@project/blog-comment';
-import { LikeDto, LikeRdo } from '@project/blog-like';
+import { BlogCommentResponseMessage, CommentRdo, CreateCommentDto, DeleteCommentDto } from '@project/blog-comment';
+import { BlogLikeResponseMessage, LikeDto, LikeRdo } from '@project/blog-like';
 import { PostValidationPipe } from './pipes/blog-post-validation.pipe';
 import { CreateRepostDto } from './dto/create-repost.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -74,12 +74,26 @@ export class BlogPostController {
     return fillDto(BlogPostRdo, repost.toPOJO());
   }
 
+  @ApiResponse({
+    type: CommentRdo,
+    status: HttpStatus.CREATED,
+  })
   @Post('/:postId/comments')
   public async createComment(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
     const newComment = await this.blogPostService.addComment(postId, dto);
     return fillDto(CommentRdo, newComment.toPOJO());
   }
 
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: BlogCommentResponseMessage.CommentIsNotYour,
+  })
   @Delete('/:postId/comments')
   public async deleteComment(@Body() dto: DeleteCommentDto) {
     await this.blogPostService.deleteComment(dto);
@@ -108,7 +122,7 @@ export class BlogPostController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: BlogPostResponseMessage.LikeNotFound,
+    description: BlogLikeResponseMessage.LikeNotFound,
   })
   @Delete('/:postId/likes')
   @HttpCode(HttpStatus.NO_CONTENT)

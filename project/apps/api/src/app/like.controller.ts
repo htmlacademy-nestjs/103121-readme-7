@@ -15,9 +15,10 @@ import { HttpService } from '@nestjs/axios';
 import { CheckAuthGuard } from './guards/check-auth.guard';
 import { InjectUserIdInterceptor } from '@project/interceptors';
 import { ApplicationServiceURL } from './app.config';
-import { LikeDto, LikeRdo } from '@project/blog-like';
+import { BlogLikeResponseMessage, LikeDto, LikeRdo } from '@project/blog-like';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BlogPostResponseMessage } from 'libs/blog/blog-post/src/blog-post-module/blog-post.constant';
+import { AppResponseMessage } from '@project/shared-core';
 
 @ApiTags('likes')
 @Controller('likes')
@@ -39,7 +40,7 @@ export class LikeController {
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: BlogPostResponseMessage.Unauthorized,
+    description: AppResponseMessage.Unauthorized,
   })
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(InjectUserIdInterceptor)
@@ -63,11 +64,11 @@ export class LikeController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: BlogPostResponseMessage.LikeNotFound,
+    description: BlogLikeResponseMessage.LikeNotFound,
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,
-    description: BlogPostResponseMessage.Unauthorized,
+    description: AppResponseMessage.Unauthorized,
   })
   @UseGuards(CheckAuthGuard)
   @UseInterceptors(InjectUserIdInterceptor)
