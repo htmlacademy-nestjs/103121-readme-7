@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
-import { PaginationResult, Post, PostStatusType } from '@project/shared-core';
+import { PaginationResult, Post, PostStatusType, SortField } from '@project/shared-core';
 import { BasePostgresRepository } from '@project/data-access';
 import { PrismaClientService } from '@project/blog-models';
 import { PostType } from '@project/shared-core';
@@ -111,8 +111,30 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     const where: Prisma.PostWhereInput = {};
     const orderBy: Prisma.PostOrderByWithRelationInput = {};
 
-    if (query?.sortDirection) {
-      orderBy.createdAt = query.sortDirection;
+    if (query?.tags) {
+      where.tags = {
+        hasSome: query.tags,
+      };
+    }
+
+    if (query?.type) {
+      where.type = query.type;
+    }
+
+    switch (query?.sort) {
+      case SortField.LikesCount:
+        orderBy.likes = {
+          _count: query.sortDirection,
+        };
+        break;
+      case SortField.CommentsCount:
+        orderBy.comments = {
+          _count: query.sortDirection,
+        };
+        break;
+      default:
+        orderBy.createdAt = query.sortDirection;
+        break;
     }
 
     const [records, postCount] = await Promise.all([
