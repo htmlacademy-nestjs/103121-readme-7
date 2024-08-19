@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
 import { IsString, IsIn, IsNumber, IsOptional } from 'class-validator';
 
-import { PostStatusType, PostType, SortDirection, SortField } from '@project/shared-core';
+import { PostType, SortDirection, SortField } from '@project/shared-core';
 
 import {
   DEFAULT_POST_COUNT_LIMIT,
@@ -34,12 +34,15 @@ export class BlogPostQuery {
   @IsOptional()
   public tags?: string[];
 
+  @IsIn(Object.values(SortField))
   @IsOptional()
   public sort?: SortField = DEFAULT_SORT;
 
+  @IsIn(Object.values(PostType))
   @IsOptional()
   public type?: PostType;
 
+  @IsString()
   @IsOptional()
-  public filter?: PostStatusType = PostStatusType.Published;
+  public search?: string;
 }

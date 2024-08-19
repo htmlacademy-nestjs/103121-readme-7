@@ -9,6 +9,7 @@ import { PostType } from '@project/shared-core';
 import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostFactory } from './blog-post.factory';
 import { BlogPostQuery } from './blog-post.query';
+import { DEFAULT_POST_COUNT_SEARCH_LIMIT } from './blog-post.constant';
 
 @Injectable()
 export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, Post> {
@@ -111,7 +112,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
 
   public async find(query?: BlogPostQuery): Promise<PaginationResult<BlogPostEntity>> {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
-    const take = query?.limit;
+    let take = query?.limit;
     const where: Prisma.PostWhereInput = {};
     const orderBy: Prisma.PostOrderByWithRelationInput = {};
 
@@ -123,6 +124,13 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
 
     if (query?.type) {
       where.type = query.type;
+    }
+
+    if (query?.search) {
+      where.title = {
+        contains: query?.search,
+      };
+      take = DEFAULT_POST_COUNT_SEARCH_LIMIT;
     }
 
     switch (query?.sort) {

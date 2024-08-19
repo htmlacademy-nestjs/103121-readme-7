@@ -1,4 +1,4 @@
-export const enum SortField {
+export enum SortField {
   CreatedAt = 'createdAt',
   CommentsCount = 'commentsCount',
   LikesCount = 'likesCount'
