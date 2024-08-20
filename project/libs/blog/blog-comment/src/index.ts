@@ -4,3 +4,6 @@ export { BlogCommentFactory } from './blog-comment-module/blog-comment.factory';
 export { BlogCommentRepository } from './blog-comment-module/blog-comment.repository';
 export { CreateCommentDto } from './blog-comment-module/dto/create-comment.dto';
 export { CommentRdo } from './blog-comment-module/rdo/comment.rdo';
+export { DeleteCommentDto } from './blog-comment-module/dto/delete-comment.dto';
+export { CommentWithPaginationRdo } from './blog-comment-module/rdo/comment-with-pagination.rdo';
+export { BlogCommentResponseMessage } from './blog-comment-module/blog-comment.constant';

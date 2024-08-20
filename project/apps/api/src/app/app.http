@@ -1,10 +1,48 @@
+# Create a new user
+POST http://localhost:4000/api/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@notfound.local",
+  "login": "Keks",
+  "password": "123456",
+  "avatar": "/images/user.png"
+}
+
+###
+
+# Create a new user with avatar
+POST http://localhost:4000/api/users/register HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="email"
+
+user123asdf24@notfound.local
+--boundary
+Content-Disposition: form-data; name="password"
+
+123456
+--boundary
+Content-Disposition: form-data; name="login"
+
+Keks
+--boundary
+Content-Disposition: form-data; name="file"; filename="avatar.jpg"
+Content-Type: image/jpeg
+
+< ./avatar.jpg
+--boundary--
+
+###
+
 # Login user by email and password
 POST http://localhost:4000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
   "email": "user@notfound.local",
-  "password": "123456"
+  "password": "asdfasdf12"
 }
 
 ###
@@ -25,4 +63,74 @@ Content-Type: application/json
   "description": "Текст анонса",
   "type": "quote"
 }
+
+###
+
+# Change password
+POST http://localhost:4000/api/users/password HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjM4MDMxNzcsImV4cCI6MTcyMzgwMzQ3N30.ZuibHFLw6INhc0qCTnOu29eGpFdJWVES2BMjOeO6XFk
+
+{
+  "password": "asdfasdf1",
+  "newPassword": "asdfasdf12",
+  "userId": "669b833d176cd8a2e1a66ffe"
+}
+
+###
+
+# Get user detail by ID
+GET http://localhost:4000/api/users/669b833d176cd8a2e1a66ffe HTTP/1.1
+
+###
+
+# Create a new like for post
+POST http://localhost:4000/api/likes/ab04593b-da99-4fe3-8b4b-e06d82e2efdd HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjM5ODMwNDYsImV4cCI6MTcyMzk4MzM0Nn0.7flcNfvgDqUiZfDmLF_2lqadNBCu70Pk1HbsbhehV_Q
+
+###
+
+# Delete like for post
+DELETE http://localhost:4000/api/likes/ab04593b-da99-4fe3-8b4b-e06d82e2efdd HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjM5ODMwNDYsImV4cCI6MTcyMzk4MzM0Nn0.7flcNfvgDqUiZfDmLF_2lqadNBCu70Pk1HbsbhehV_Q
+
+###
+
+# Get all comments for post
+GET http://localhost:4000/api/comments/ab04593b-da99-4fe3-8b4b-e06d82e2efdd HTTP/1.1
+
+###
+
+# Create a new comment for post
+POST http://localhost:4000/api/comments/ab04593b-da99-4fe3-8b4b-e06d82e2efdd HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjM5OTI4ODAsImV4cCI6MTcyMzk5MzE4MH0.mxHxrY-p9mwFsTqOThIhfg_XMtTaW5VFdUUZN3DlBhY
+
+{
+  "userId": "65990102bb965b742900ba59",
+  "message": "Very interesting comment"
+}
+
+###
+
+# Delete comment for post
+DELETE http://localhost:4000/api/comments/ab04593b-da99-4fe3-8b4b-e06d82e2efdd HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjM5OTI4ODAsImV4cCI6MTcyMzk5MzE4MH0.mxHxrY-p9mwFsTqOThIhfg_XMtTaW5VFdUUZN3DlBhY
+
+{
+  "id": "038f56cc-143c-4586-a55c-ff7a36678d72",
+  "userId": "65990102bb965b742900ba59"
+}
+
+###
+
+# Send new posts to subscribers
+POST http://localhost:4000/api/notifications/notify-posts HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjQxODI0MjQsImV4cCI6MTcyNDE4MjcyNH0.Ajs1ewezPfGbQdYjxqTSvglxM0UC1JaRCpBZJHzxsVo
+
+
 ###

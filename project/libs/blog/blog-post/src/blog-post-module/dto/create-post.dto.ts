@@ -114,4 +114,31 @@ export class CreatePostDto {
   @IsString()
   @IsMongoId()
   public userId: string;
+
+  @ApiProperty({
+    description: 'Original post id',
+    example: '9e68447e-e808-46da-a6b7-6311c1fc6843'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsOptional()
+  public originalId?: string;
+
+  @ApiProperty({
+    description: 'Original user id',
+    example: '5f4f4f4f4f4f4f4f4f4f4f4f'
+  })
+  @IsString()
+  @IsMongoId()
+  @IsOptional()
+  public originalUserId?: string;
+
+  @ApiProperty({
+    description: 'Is reposted',
+    example: false
+  })
+  @IsString()
+  @IsMongoId()
+  @IsOptional()
+  public isReposted?: boolean;
 }

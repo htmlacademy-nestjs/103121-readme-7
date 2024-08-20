@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import {
   AuthenticationValidateMessage,
   NAME_MAX_LENGTH, NAME_MIN_LENGTH,
@@ -34,8 +34,10 @@ export class CreateUserDto {
   public password: string;
 
   @ApiProperty({
-    description: 'User avatar path',
-    example: '/images/user.png'
+    description: 'User avatar id',
+    example: '669b833d176cd8a2e1a66ffe'
   })
+  @IsString()
+  @IsOptional()
   public avatar?: string;
 }

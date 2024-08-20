@@ -1,8 +1,8 @@
 import 'multer';
 import { Express } from 'express';
-import { Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-
+import { extname } from 'path';
 import { FileUploaderService } from './file-uploader.service';
 import { MongoIdValidationPipe } from '@project/pipes';
 import { fillDto } from '@project/shared-helpers';
@@ -16,7 +16,19 @@ export class FileUploaderController {
   ) {}
 
   @Post('/upload')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', {
+    fileFilter: (req, file, cb) => {
+      const allowedExtensions = ['.jpg', '.jpeg', '.png'];
+      const fileExtension = extname(file.originalname).toLowerCase();
+      if (!allowedExtensions.includes(fileExtension)) {
+        return cb(new BadRequestException('Only .jpg and .png files are allowed'), false);
+      }
+      cb(null, true);
+    },
+    limits: {
+      fileSize: 1024 * 500
+    },
+  }))
   public async uploadFile(@UploadedFile() file: Express.Multer.File) {
     const fileEntity = await this.fileUploaderService.saveFile(file);
     return fillDto(UploadedFileRdo, fileEntity.toPOJO());
