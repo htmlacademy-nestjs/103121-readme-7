@@ -31,8 +31,8 @@ export class BlogPostService {
     private readonly blogLikeFactory: BlogLikeFactory,
   ) {}
 
-  public async getAllPosts(query?: BlogPostQuery): Promise<PaginationResult<BlogPostEntity>> {
-    return this.blogPostRepository.find(query);
+  public async getAllPosts(query?: BlogPostQuery, userId?: string): Promise<PaginationResult<BlogPostEntity>> {
+    return this.blogPostRepository.find(query, userId);
   }
 
   public async createPost(dto: CreatePostDto): Promise<BlogPostEntity> {

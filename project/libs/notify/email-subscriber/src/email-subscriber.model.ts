@@ -20,6 +20,12 @@ export class EmailSubscriberModel extends Document implements Subscriber {
   })
   public login: string;
 
+  @Prop({
+    type: Date,
+    default: Date.now,
+  })
+  public lastNotificationDate?: Date;
+
   public id?: string;
 }
 

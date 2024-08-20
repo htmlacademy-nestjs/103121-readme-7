@@ -22,14 +22,17 @@ import { BlogCommentResponseMessage, CommentRdo, CreateCommentDto, DeleteComment
 import { BlogLikeResponseMessage, LikeDto, LikeRdo } from '@project/blog-like';
 import { PostValidationPipe } from './pipes/blog-post-validation.pipe';
 import { CreateRepostDto } from './dto/create-repost.dto';
+import { NotifyDto } from '@project/eamil-subscriber'
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BlogPostResponseMessage } from './blog-post.constant';
+import { NotifyBlogService } from '@project/blog-notify';
 
 @ApiTags('posts')
 @Controller('posts')
 export class BlogPostController {
   constructor (
     private readonly blogPostService: BlogPostService,
+    private readonly notifyBlogService: NotifyBlogService,
   ) {}
 
   @Get('/:id')
@@ -130,10 +133,21 @@ export class BlogPostController {
     await this.blogPostService.deleteLike(postId, dto);
   }
 
-  @Get(`/:userId/count`)
+  @Get('/:userId/count')
   public async count(@Param('userId') userId: string) {
     const count = await this.blogPostService.getCount(userId);
 
     return count;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  @Post('notify')
+  public async sendNewsletter(@Query() query: BlogPostQuery, @Body() dto: NotifyDto) {
+    const posts = await this.blogPostService.getAllPosts(query, dto.userId);
+    await this.notifyBlogService.sendNewPosts(
+      posts.entities.map((post) => post.toPOJO())
+    );
   }
 }

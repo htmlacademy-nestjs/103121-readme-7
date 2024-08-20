@@ -32,7 +32,6 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     const pojoEntity = entity.toPOJO();
     const { id, tags, ...clearedData } = pojoEntity;
     const uniqueTags = Array.from(new Set(tags.map(tag => tag.toLowerCase())));
-    console.log(uniqueTags);
     const record = await this.client.post.create({
       data: {
         ...clearedData,
@@ -110,7 +109,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     return undefined;
   }
 
-  public async find(query?: BlogPostQuery): Promise<PaginationResult<BlogPostEntity>> {
+  public async find(query?: BlogPostQuery, userId?: string): Promise<PaginationResult<BlogPostEntity>> {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     let take = query?.limit;
     const where: Prisma.PostWhereInput = {};
@@ -147,6 +146,12 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
       default:
         orderBy.createdAt = query.sortDirection;
         break;
+    }
+
+    if (userId) {
+      where.status = query?.status ?? PostStatusType.Published;
+    } else {
+      where.status = PostStatusType.Published;
     }
 
     const [records, postCount] = await Promise.all([
