@@ -29,7 +29,7 @@ DocumentType = ReturnType<T['toPOJO']>
     throw new Error('Not implemented');
   }
 
-  public async update(entity: T): Promise<T> {
+  public async update(entity: T): Promise<void> {
     throw new Error('Not implemented');
   }
 

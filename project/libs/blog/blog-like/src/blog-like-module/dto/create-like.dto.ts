@@ -1,6 +1,7 @@
 import { IsMongoId, IsString } from 'class-validator';
 
-export class CreateRepostDto {
+export class CreateLikeDto {
+  @IsString()
   @IsMongoId()
   public userId: string;
 }

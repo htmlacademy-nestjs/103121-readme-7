@@ -27,16 +27,12 @@ export abstract class BaseMemoryRepository<T extends Entity & StorableEntity<Ret
     this.entities.set(entity.id, entity.toPOJO());
   }
 
-  public async update(entity: T): Promise<T> {
-    const updateEntity = this.entities.get(entity.id) || null;
-
+  public async update(entity: T): Promise<void> {
     if (!this.entities.has(entity.id)) {
       throw new Error('Entity not found');
     }
 
     this.entities.set(entity.id, entity.toPOJO());
-
-    return this.entityFactory.create(updateEntity);
   }
 
   public async deleteById(id: T['id']): Promise<void> {

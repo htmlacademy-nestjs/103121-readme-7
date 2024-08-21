@@ -23,16 +23,4 @@ export class EmailSubscriberService {
 
     return emailSubscriber;
   }
-
-  public async getSubscribers(): Promise<EmailSubscriberEntity[]> {
-    return await this.emailSubscriberRepository.findAll();
-  }
-
-  public async updateSubscriber(email: string): Promise<EmailSubscriberEntity> {
-    const existSubscriber = await this.emailSubscriberRepository.findByEmail(email);
-
-    const subscriberEntity = new EmailSubscriberEntity(existSubscriber);
-    subscriberEntity.lastNotificationDate = new Date();
-    return await this.emailSubscriberRepository.update(subscriberEntity);
-  }
 }

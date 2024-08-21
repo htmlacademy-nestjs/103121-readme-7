@@ -25,9 +25,6 @@ export class BlogPostFactory implements EntityFactory<BlogPostEntity> {
     entity.title = dto.title;
     entity.description = dto.description;
     entity.userId = dto.userId;
-    entity.isReposted = dto.isReposted;
-    entity.originalId = dto.originalId;
-    entity.originalUserId = dto.originalUserId;
     entity.comments = [];
     entity.likes = [];
 

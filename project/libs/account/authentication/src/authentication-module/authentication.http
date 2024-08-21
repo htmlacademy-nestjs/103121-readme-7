@@ -13,6 +13,7 @@ Content-Type: application/json
 
 # Get user by ID
 GET http://localhost:3000/api/auth/669b833d176cd8a2e1a66ffe HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjMwMDkyNzMsImV4cCI6MTcyMzAwOTU3M30.0gBcd8PHb2KsYSU1xZiKAgETLaS_hY5SExIJZW75TZc
 
 ###
 
@@ -22,7 +23,7 @@ Content-Type: application/json
 
 {
   "email": "user@notfound.local",
-  "password": "asdfasdf12"
+  "password": "123456"
 }
 
 ###
@@ -37,14 +38,3 @@ POST http://localhost:3000/api/auth/check HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjM2MjA1NTEsImV4cCI6MTcyMzYyMDg1MX0.r6nXoumhCzlbDq6ZzhUsoOvgS6QaqZUM2oO8V9-SPKc
 
 ###
-
-# Change password
-POST http://localhost:3000/api/auth/password HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjM4MDMxMzcsImV4cCI6MTcyMzgwMzQzN30.kz-5Gc2vFjLC90xeJbR3rFLSX3aZlmfnhFVYjfd8f8o
-
-{
-  "password": "asdfasdf1",
-  "newPassword": "asdfasdf12",
-  "userId": "669b833d176cd8a2e1a66ffe"
-}
