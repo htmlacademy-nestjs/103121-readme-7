@@ -7,10 +7,9 @@ import { BlogPostRepository } from './blog-post.repository';
 import { BlogPostFactory } from './blog-post.factory';
 import { BlogCommentModule } from '@project/blog-comment';
 import { BlogLikeModule } from '@project/blog-like';
-import { NotifyBlogModule } from '@project/blog-notify';
 
 @Module({
-  imports: [PrismaClientModule, BlogCommentModule, BlogLikeModule, NotifyBlogModule],
+  imports: [PrismaClientModule, BlogCommentModule, BlogLikeModule],
   controllers: [BlogPostController],
   providers: [BlogPostService, BlogPostRepository, BlogPostFactory],
   exports: [BlogPostService],

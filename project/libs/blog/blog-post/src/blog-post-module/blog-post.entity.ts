@@ -21,9 +21,6 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
   public userId: string;
   public comments: BlogCommentEntity[];
   public likes: BlogLikeEntity[];
-  public isReposted?: boolean;
-  public originalId?: string;
-  public originalUserId?: string;
 
   constructor(post?: Post) {
     super();
@@ -53,9 +50,6 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
     this.userId = post.userId;
     this.comments = [];
     this.likes = [];
-    this.isReposted = post.isReposted ?? undefined;
-    this.originalId = post.originalId ?? undefined;
-    this.originalUserId = post.originalUserId ?? undefined;
 
     const blogCommentFactory = new BlogCommentFactory();
     for (const comment of post.comments) {
@@ -91,9 +85,6 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
       status: this.status,
       likes: this.likes.map((likeEntity) => likeEntity.toPOJO()),
       comments: this.comments.map((commentEntity) => commentEntity.toPOJO()),
-      isReposted: this.isReposted,
-      originalId: this.originalId,
-      originalUserId: this.originalUserId,
     }
   }
 }

@@ -4,25 +4,14 @@
  */
 
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  const config = new DocumentBuilder()
-    .setTitle('Blog service')
-    .setDescription('Blog service API')
-    .setVersion('1.0')
-    .build();
-
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('spec', app, document);
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 

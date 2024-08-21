@@ -23,7 +23,4 @@ export interface Post {
   userId: string;
   comments: Comment[];
   likes: Like[];
-  isReposted: boolean;
-  originalId: string;
-  originalUserId: string;
 }

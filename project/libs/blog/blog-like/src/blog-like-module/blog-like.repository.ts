@@ -6,7 +6,6 @@ import { Like } from '@project/shared-core';
 import { BlogLikeEntity } from './blog-like.entity';
 import { BlogLikeFactory } from './blog-like.factory';
 import { BasePostgresRepository } from '@project/data-access';
-import { BlogLikeResponseMessage } from './blog-like.constant';
 
 @Injectable()
 export class BlogLikeRepository extends BasePostgresRepository<BlogLikeEntity, Like> {
@@ -25,25 +24,6 @@ export class BlogLikeRepository extends BasePostgresRepository<BlogLikeEntity, L
     entity.id = record.id;
   }
 
-  public async delete(postId: string, userId: string): Promise<void> {
-    const existsLike = await this.client.like.findFirst({
-      where: {
-          userId,
-          postId,
-      },
-    });
-
-    if (existsLike) {
-      await this.client.like.delete({
-        where: {
-          id: existsLike.id,
-        }
-      });
-    } else {
-      throw new NotFoundException(BlogLikeResponseMessage.LikeNotFound);
-    }
-  }
-
   public async findById(id: string): Promise<BlogLikeEntity> {
     const document = await this.client.like.findFirst({
       where: {
@@ -52,7 +32,7 @@ export class BlogLikeRepository extends BasePostgresRepository<BlogLikeEntity, L
     });
 
     if (!document) {
-      throw new NotFoundException(BlogLikeResponseMessage.LikeNotFound);
+      throw new NotFoundException(`Like with id ${id} not found.`);
     }
 
     return this.createEntityFromDocument(document);

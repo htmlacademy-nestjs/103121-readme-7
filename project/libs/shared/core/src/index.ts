@@ -18,5 +18,3 @@ export { Subscriber } from './lib/types/subscriber.interface';
 export { RabbitRouting } from './lib/types/rabbit-routing.enum';
 export { JwtToken } from './lib/interfaces/jwt-token.interface';
 export { RefreshTokenPayload } from './lib/interfaces/refresh-token-payload.interface';
-export { SortField } from './lib/types/sort-field.enum';
-export * from './lib/const';

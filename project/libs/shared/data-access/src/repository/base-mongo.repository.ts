@@ -41,7 +41,7 @@ export abstract class BaseMongoRepository<
     entity.id = newEntity._id.toString();
   }
 
-  public async update(entity: T): Promise<T> {
+  public async update(entity: T): Promise<void> {
     const updatedDocument = await this.model.findByIdAndUpdate(
       entity.id,
       entity.toPOJO(),
@@ -52,8 +52,6 @@ export abstract class BaseMongoRepository<
     if (!updatedDocument) {
       throw new NotFoundException(`Entity with id ${entity.id} not found`);
     }
-
-    return this.createEntityFromDocument(updatedDocument);
   }
 
   public async deleteById(id: T['id']): Promise<void> {

@@ -18,7 +18,6 @@ import { jwtConfig } from '@project/account-config';
 import { Token, User } from '@project/shared-core';
 import { RefreshTokenService } from '../refresh-token-module/refresh-token.service';
 import { createJWTPayload } from '@project/shared-helpers';
-import { ChangePasswordDto } from '../dto/change-password.dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -108,25 +107,5 @@ export class AuthenticationService {
     }
 
     return existUser;
-  }
-
-  public async changePassword(dto: ChangePasswordDto) {
-    const { password, newPassword, userId } = dto;
-
-    const existUser = await this.blogUserRepository.findById(userId);
-
-    if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
-    }
-
-    if (!await existUser.comparePassword(password)) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
-    }
-
-    const updatedUser = await new BlogUserEntity(existUser).setPassword(
-      newPassword
-    );
-
-    return await this.blogUserRepository.update(updatedUser);
   }
 }
