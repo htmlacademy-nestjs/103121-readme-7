@@ -3,24 +3,20 @@ import { IsIn, IsNumber, IsOptional } from 'class-validator';
 
 import { SortDirection } from '@project/shared-core';
 
-import {
-  DEFAULT_COMMENT_COUNT_LIMIT,
-  DEFAULT_SORT_DIRECTION,
-  DEFAULT_PAGE_COUNT
-} from './blog-comment.constant';
+import { DefautCommentValue } from './blog-comment.constant';
 
 
 export class BlogCommentQuery {
-  @Transform(({ value }) => +value || DEFAULT_COMMENT_COUNT_LIMIT)
+  @Transform(({ value }) => +value || DefautCommentValue.countLimit)
   @IsNumber()
   @IsOptional()
-  public limit = DEFAULT_COMMENT_COUNT_LIMIT;
+  public limit = DefautCommentValue.countLimit;
 
   @IsIn(Object.values(SortDirection))
   @IsOptional()
-  public sortDirection: SortDirection = DEFAULT_SORT_DIRECTION;
+  public sortDirection: SortDirection = DefautCommentValue.sortDirection;
 
-  @Transform(({ value }) => +value || DEFAULT_PAGE_COUNT)
+  @Transform(({ value }) => +value || DefautCommentValue.pageCount)
   @IsOptional()
-  public page: number = DEFAULT_PAGE_COUNT;
+  public page: number = DefautCommentValue.pageCount;
 }

@@ -1,2 +1,4 @@
-export const EMAIL_ADD_SUBSCRIBER_SUBJECT = 'Подписка на рассылку оформлена';
-export const EMAIL_NEW_POSTS_SUBJECT = 'Новые посты в блоге';
+export const EmailMessage = {
+  emailAddSubscriberSubject: 'Подписка на рассылку оформлена',
+  emailNewPostsSubject: 'Новые посты в блоге',
+}

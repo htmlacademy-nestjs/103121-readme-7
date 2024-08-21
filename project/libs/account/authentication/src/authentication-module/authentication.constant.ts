@@ -1,11 +1,15 @@
-export const AUTH_USER_EXISTS = 'User with this email exists';
-export const AUTH_USER_NOT_FOUND = 'User not found';
-export const AUTH_USER_PASSWORD_WRONG = 'User password is wrong';
+export const AuthenticationExceptionMessage = {
+  UserExists: 'User with this email exists',
+  UserNotFound: 'User not found',
+  UserPasswordWrong: 'User password is wrong',
+} as const;
 
-export const NAME_MIN_LENGTH = 3;
-export const NAME_MAX_LENGTH = 50;
-export const PASSWORD_MIN_LENGTH = 6;
-export const PASSWORD_MAX_LENGTH = 12;
+export const AuthenticationValidateValue = {
+  NameMinLength: 3,
+  NameMaxLength: 50,
+  PasswordMinLength: 6,
+  PasswordMaxLength: 12,
+} as const;
 
 export const AuthenticationResponseMessage = {
   LoggedSuccess: 'User has been successfully logged',
@@ -20,9 +24,9 @@ export const AuthenticationResponseMessage = {
 export const AuthenticationValidateMessage = {
   EmailNotValid: 'The email is not valid',
   NameIsNotString: 'The name must be a string',
-  NameMinLength: `The name must be at least ${NAME_MIN_LENGTH} characters long`,
-  NameMaxLength: `The name must be no more than ${NAME_MAX_LENGTH} characters long`,
+  NameMinLength: `The name must be at least ${AuthenticationValidateValue.NameMinLength} characters long`,
+  NameMaxLength: `The name must be no more than ${AuthenticationValidateValue.NameMaxLength} characters long`,
   PasswordIsNotString: 'The password must be a string',
-  PasswordMinLength: `The password must be at least ${PASSWORD_MIN_LENGTH} characters long`,
-  PasswordMaxLength: `The password must be no more than ${PASSWORD_MAX_LENGTH} characters long`,
+  PasswordMinLength: `The password must be at least ${AuthenticationValidateValue.PasswordMinLength} characters long`,
+  PasswordMaxLength: `The password must be no more than ${AuthenticationValidateValue.PasswordMaxLength} characters long`,
 } as const;

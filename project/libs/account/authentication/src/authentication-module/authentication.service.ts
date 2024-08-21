@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { BlogUserRepository, BlogUserEntity } from '@project/blog-user';
 import { CreateUserDto } from '../dto/create-user.dto'
-import { AUTH_USER_EXISTS, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG } from './authentication.constant';
+import { AuthenticationExceptionMessage } from './authentication.constant';
 import { LoginUserDto } from '../dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigType } from '@nestjs/config';
@@ -45,7 +45,7 @@ export class AuthenticationService {
       .findByEmail(email);
 
     if (existUser) {
-      throw new ConflictException(AUTH_USER_EXISTS);
+      throw new ConflictException(AuthenticationExceptionMessage.UserExists);
     }
 
     const userEntity = await new BlogUserEntity(blogUser)
@@ -61,11 +61,11 @@ export class AuthenticationService {
     const existUser = await this.blogUserRepository.findByEmail(email);
 
     if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(AuthenticationExceptionMessage.UserNotFound);
     }
 
     if (!await existUser.comparePassword(password)) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
+      throw new UnauthorizedException(AuthenticationExceptionMessage.UserPasswordWrong);
     }
 
     return existUser;
@@ -75,7 +75,7 @@ export class AuthenticationService {
     const user = await this.blogUserRepository.findById(id);
 
     if (!user) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(AuthenticationExceptionMessage.UserNotFound);
     }
 
     return user;
@@ -116,11 +116,11 @@ export class AuthenticationService {
     const existUser = await this.blogUserRepository.findById(userId);
 
     if (!existUser) {
-      throw new NotFoundException(AUTH_USER_NOT_FOUND);
+      throw new NotFoundException(AuthenticationExceptionMessage.UserNotFound);
     }
 
     if (!await existUser.comparePassword(password)) {
-      throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
+      throw new UnauthorizedException(AuthenticationExceptionMessage.UserPasswordWrong);
     }
 
     const updatedUser = await new BlogUserEntity(existUser).setPassword(

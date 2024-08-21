@@ -1,10 +1,12 @@
 import { SortDirection, SortField } from '@project/shared-core';
 
-export const DEFAULT_POST_COUNT_LIMIT = 25;
-export const DEFAULT_POST_COUNT_SEARCH_LIMIT = 20;
-export const DEFAULT_SORT_DIRECTION = SortDirection.Desc;
-export const DEFAULT_PAGE_COUNT = 1;
-export const DEFAULT_SORT = SortField.CreatedAt;
+export const BlogPostDefaultValue = {
+  countLimit: 25,
+  countSearchLimit: 20,
+  sortDirection: SortDirection.Desc,
+  pageCount: 1,
+  sort: SortField.CreatedAt,
+} as const;
 
 export const BlogPostResponseMessage = {
   LikeExists: 'Like already exists',
