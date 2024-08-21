@@ -1,6 +1,6 @@
 import { IsString, MinLength, MaxLength, IsMongoId } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH } from '../authentication-module/authentication.constant';
+import { AuthenticationValidateValue } from '../authentication-module/authentication.constant';
 import { AuthenticationValidateMessage } from '../authentication-module/authentication.constant';
 
 export class ChangePasswordDto {
@@ -9,8 +9,8 @@ export class ChangePasswordDto {
     example: '123456'
   })
   @IsString({ message: AuthenticationValidateMessage.PasswordIsNotString })
-  @MinLength(PASSWORD_MIN_LENGTH, { message: AuthenticationValidateMessage.PasswordMinLength })
-  @MaxLength(PASSWORD_MAX_LENGTH, { message: AuthenticationValidateMessage.PasswordMaxLength })
+  @MinLength(AuthenticationValidateValue.PasswordMinLength, { message: AuthenticationValidateMessage.PasswordMinLength })
+  @MaxLength(AuthenticationValidateValue.PasswordMaxLength, { message: AuthenticationValidateMessage.PasswordMaxLength })
   public password: string;
 
   @ApiProperty({
@@ -18,8 +18,8 @@ export class ChangePasswordDto {
     example: '123456'
   })
   @IsString({ message: AuthenticationValidateMessage.PasswordIsNotString })
-  @MinLength(PASSWORD_MIN_LENGTH, { message: AuthenticationValidateMessage.PasswordMinLength })
-  @MaxLength(PASSWORD_MAX_LENGTH, { message: AuthenticationValidateMessage.PasswordMaxLength })
+  @MinLength(AuthenticationValidateValue.PasswordMinLength, { message: AuthenticationValidateMessage.PasswordMinLength })
+  @MaxLength(AuthenticationValidateValue.PasswordMaxLength, { message: AuthenticationValidateMessage.PasswordMaxLength })
   public newPassword: string;
 
   @IsString()

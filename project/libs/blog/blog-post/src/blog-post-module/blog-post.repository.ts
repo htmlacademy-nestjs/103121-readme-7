@@ -9,7 +9,7 @@ import { PostType } from '@project/shared-core';
 import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostFactory } from './blog-post.factory';
 import { BlogPostQuery } from './blog-post.query';
-import { DEFAULT_POST_COUNT_SEARCH_LIMIT } from './blog-post.constant';
+import { BlogPostDefaultValue } from './blog-post.constant';
 
 @Injectable()
 export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, Post> {
@@ -31,7 +31,15 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
   public async save(entity: BlogPostEntity): Promise<void> {
     const pojoEntity = entity.toPOJO();
     const { id, tags, ...clearedData } = pojoEntity;
-    const uniqueTags = Array.from(new Set(tags.map(tag => tag.toLowerCase())));
+    const createUniquetags = (tags: string[]): string[] => {
+      if (!tags || tags.length === 0) {
+        return [];
+      }
+      return Array.from(new Set(tags.map(tag => tag.toLowerCase())));
+    };
+
+    const uniqueTags = createUniquetags(tags);
+
     const record = await this.client.post.create({
       data: {
         ...clearedData,
@@ -111,7 +119,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
 
   public async find(query?: BlogPostQuery, userId?: string): Promise<PaginationResult<BlogPostEntity>> {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
-    let take = query?.limit;
+    const take = query?.limit;
     const where: Prisma.PostWhereInput = {};
     const orderBy: Prisma.PostOrderByWithRelationInput = {};
 
@@ -129,7 +137,6 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
       where.title = {
         contains: query?.search,
       };
-      take = DEFAULT_POST_COUNT_SEARCH_LIMIT;
     }
 
     switch (query?.sort) {

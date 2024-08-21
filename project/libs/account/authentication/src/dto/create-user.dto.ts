@@ -2,9 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 import {
   AuthenticationValidateMessage,
-  NAME_MAX_LENGTH, NAME_MIN_LENGTH,
-  PASSWORD_MAX_LENGTH,
-  PASSWORD_MIN_LENGTH
+  AuthenticationValidateValue,
 } from '../authentication-module/authentication.constant';
 
 export class CreateUserDto {
@@ -20,8 +18,8 @@ export class CreateUserDto {
     example: 'Keks',
   })
   @IsString({ message: AuthenticationValidateMessage.NameIsNotString })
-  @MinLength(NAME_MIN_LENGTH, { message: AuthenticationValidateMessage.NameMinLength })
-  @MaxLength(NAME_MAX_LENGTH, { message: AuthenticationValidateMessage.NameMaxLength })
+  @MinLength(AuthenticationValidateValue.NameMinLength, { message: AuthenticationValidateMessage.NameMinLength })
+  @MaxLength(AuthenticationValidateValue.NameMaxLength, { message: AuthenticationValidateMessage.NameMaxLength })
   public login: string;
 
   @ApiProperty({
@@ -29,8 +27,8 @@ export class CreateUserDto {
     example: '123456'
   })
   @IsString({ message: AuthenticationValidateMessage.PasswordIsNotString })
-  @MinLength(PASSWORD_MIN_LENGTH, { message: AuthenticationValidateMessage.PasswordMinLength })
-  @MaxLength(PASSWORD_MAX_LENGTH, { message: AuthenticationValidateMessage.PasswordMaxLength })
+  @MinLength(AuthenticationValidateValue.PasswordMinLength, { message: AuthenticationValidateMessage.PasswordMinLength })
+  @MaxLength(AuthenticationValidateValue.NameMaxLength, { message: AuthenticationValidateMessage.PasswordMaxLength })
   public password: string;
 
   @ApiProperty({

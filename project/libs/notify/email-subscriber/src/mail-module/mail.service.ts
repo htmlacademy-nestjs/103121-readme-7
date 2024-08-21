@@ -5,7 +5,7 @@ import { ConfigType } from '@nestjs/config';
 import { Post, Subscriber } from '@project/shared-core';
 import { NotifyConfig } from '@project/notify-config';
 
-import { EMAIL_ADD_SUBSCRIBER_SUBJECT, EMAIL_NEW_POSTS_SUBJECT } from './mail.constant';
+import { EmailMessage } from './mail.constant';
 
 @Injectable()
 export class MailService {
@@ -18,7 +18,7 @@ export class MailService {
     await this.mailerService.sendMail({
       from: this.notifyConfig.mail.from,
       to: subscriber.email,
-      subject: EMAIL_ADD_SUBSCRIBER_SUBJECT,
+      subject: EmailMessage.emailAddSubscriberSubject,
       template: './add-subscriber',
       context: {
         user: `${subscriber.login}`,
@@ -31,7 +31,7 @@ export class MailService {
     await this.mailerService.sendMail({
       from: this.notifyConfig.mail.from,
       to: subscribers.map((item) => item.email),
-      subject: EMAIL_NEW_POSTS_SUBJECT,
+      subject: EmailMessage.emailNewPostsSubject,
       template: './new-posts',
       context: { posts }
     })

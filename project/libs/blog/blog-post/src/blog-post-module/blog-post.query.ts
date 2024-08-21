@@ -3,27 +3,22 @@ import { IsString, IsIn, IsNumber, IsOptional } from 'class-validator';
 
 import { PostStatusType, PostType, SortDirection, SortField } from '@project/shared-core';
 
-import {
-  DEFAULT_POST_COUNT_LIMIT,
-  DEFAULT_SORT_DIRECTION,
-  DEFAULT_PAGE_COUNT,
-  DEFAULT_SORT
-} from './blog-post.constant';
+import { BlogPostDefaultValue } from './blog-post.constant';
 
 
 export class BlogPostQuery {
-  @Transform(({ value }) => +value || DEFAULT_POST_COUNT_LIMIT)
+  @Transform(({ value }) => +value || BlogPostDefaultValue.countLimit)
   @IsNumber()
   @IsOptional()
-  public limit = DEFAULT_POST_COUNT_LIMIT;
+  public limit = BlogPostDefaultValue.countLimit;
 
   @IsIn(Object.values(SortDirection))
   @IsOptional()
-  public sortDirection: SortDirection = DEFAULT_SORT_DIRECTION;
+  public sortDirection: SortDirection = BlogPostDefaultValue.sortDirection;
 
-  @Transform(({ value }) => +value || DEFAULT_PAGE_COUNT)
+  @Transform(({ value }) => +value || BlogPostDefaultValue.pageCount)
   @IsOptional()
-  public page: number = DEFAULT_PAGE_COUNT;
+  public page: number = BlogPostDefaultValue.pageCount;
 
   @Transform(({ value }) =>
     typeof value === 'string'
@@ -36,7 +31,7 @@ export class BlogPostQuery {
 
   @IsIn(Object.values(SortField))
   @IsOptional()
-  public sort?: SortField = DEFAULT_SORT;
+  public sort?: SortField = BlogPostDefaultValue.sort;
 
   @IsIn(Object.values(PostType))
   @IsOptional()
