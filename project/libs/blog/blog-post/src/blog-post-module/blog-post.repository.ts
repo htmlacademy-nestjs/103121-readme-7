@@ -31,7 +31,15 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
   public async save(entity: BlogPostEntity): Promise<void> {
     const pojoEntity = entity.toPOJO();
     const { id, tags, ...clearedData } = pojoEntity;
-    const uniqueTags = Array.from(new Set(tags.map(tag => tag.toLowerCase())));
+    const createUniquetags = (tags: string[]): string[] => {
+      if (!tags || tags.length === 0) {
+        return [];
+      }
+      return Array.from(new Set(tags.map(tag => tag.toLowerCase())));
+    };
+
+    const uniqueTags = createUniquetags(tags);
+
     const record = await this.client.post.create({
       data: {
         ...clearedData,

@@ -35,12 +35,23 @@ export class BlogPostController {
     private readonly notifyBlogService: NotifyBlogService,
   ) {}
 
+  @ApiResponse({
+    type: BlogPostRdo,
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+  })
   @Get('/:id')
   public async show(@Param('id') id: string) {
     const post = await this.blogPostService.getPost(id);
     return fillDto(BlogPostRdo, post.toPOJO());
   }
 
+  @ApiResponse({
+    type: BlogPostWithPaginationRdo,
+    status: HttpStatus.OK,
+  })
   @Get('/')
   public async index(@Query() query: BlogPostQuery) {
     const postsWithPagination = await this.blogPostService.getAllPosts(query);
@@ -51,6 +62,10 @@ export class BlogPostController {
     return fillDto(BlogPostWithPaginationRdo, result);
   }
 
+  @ApiResponse({
+    type: BlogPostRdo,
+    status: HttpStatus.CREATED,
+  })
   @UsePipes(PostValidationPipe)
   @Post('/')
   public async create(@Body() dto: CreatePostDto) {
@@ -58,18 +73,38 @@ export class BlogPostController {
     return fillDto(BlogPostRdo, newPost.toPOJO());
   }
 
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+  })
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+  })
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   public async destroy(@Param('id') id: string) {
     await this.blogPostService.deletePost(id);
   }
 
+  @ApiResponse({
+    type: BlogPostRdo,
+    status: HttpStatus.CREATED,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+  })
   @Patch('/:id')
   public async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
     const updatedPost = await this.blogPostService.updatePost(id, dto);
     return fillDto(BlogPostRdo, updatedPost.toPOJO());
   }
 
+  @ApiResponse({
+    type: BlogPostRdo,
+    status: HttpStatus.CREATED,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+  })
   @Post(`/:id/reposts`)
   public async createRepost(@Param('id') id: string, @Body() dto: CreateRepostDto) {
     const repost = await this.blogPostService.createRepost(id, dto);
