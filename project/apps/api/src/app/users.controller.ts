@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import 'multer';
 import { Body, Controller, Get, HttpStatus, Param, Post, Req, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 
-import { CreateUserDto, LoginUserDto, AuthenticationResponseMessage, LoggedUserRdo, DetailedUserRdo } from '@project/authentication';
+import { CreateUserDto, LoginUserDto, AuthenticationResponseMessage, LoggedUserRdo, DetailedUserRdo, CreateSubscribeDto } from '@project/authentication';
 import { UploadedFileRdo } from '@project/file-uploader';
 
 import { ApplicationServiceURL } from './app.config';
@@ -133,5 +133,28 @@ export class UsersController {
       ...data,
       postsCount: dataCount,
     };
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: AuthenticationResponseMessage.LoggedError,
+  })
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(InjectUserIdInterceptor)
+  @Post('subscribe')
+  public async subscribe(@Body() dto: CreateSubscribeDto, @Req() req: Request) {
+    const { data } = await this.httpService.axiosRef.post(
+      `${ApplicationServiceURL.Users}/subscribe`,
+      dto,
+      {
+        headers: {
+          'Authorization': req.headers['authorization']
+        }
+      }
+    );
+    return data;
   }
 }

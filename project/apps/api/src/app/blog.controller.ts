@@ -11,6 +11,7 @@ import { BlogPostRdo } from 'libs/blog/blog-post/src/blog-post-module/rdo/blog-p
 import { BlogPostWithPaginationRdo } from 'libs/blog/blog-post/src/blog-post-module/rdo/blog-post-with-pagination.rdo';
 import { BlogPostQuery } from 'libs/blog/blog-post/src/blog-post-module/blog-post.query';
 import { CreateRepostDto } from 'libs/blog/blog-post/src/blog-post-module/dto/create-repost.dto';
+import { User } from '@project/shared-core';
 
 @Controller('blog')
 @UseFilters(AxiosExceptionFilter)
@@ -58,6 +59,26 @@ export class BlogController {
         params: query,
       }
     );
+
+    return data;
+  }
+
+  @UseGuards(CheckAuthGuard)
+  @UseInterceptors(InjectUserIdInterceptor)
+  @Get('/feed')
+  public async contentRibbon(
+    @Query() query: BlogPostQuery,
+    @Body() dto: CreateRepostDto,
+  ) {
+    const { data: userData } = await this.httpService
+      .axiosRef.get<User>(`${ApplicationServiceURL.Users}/${dto.userId}`);
+    const { data } = await this.httpService.axiosRef.post(
+        `${ApplicationServiceURL.Blog}/feed`,
+        userData.subscribes,
+        {
+          params: query,
+        }
+      );
 
     return data;
   }

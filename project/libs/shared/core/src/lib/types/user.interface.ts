@@ -3,4 +3,5 @@ export interface User {
   email: string;
   login: string;
   avatar?: string;
+  subscribes?: string[];
 }

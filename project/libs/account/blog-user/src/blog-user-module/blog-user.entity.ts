@@ -8,6 +8,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
   public login: string;
   public passwordHash: string;
   public avatar: string;
+  public subscribes: string[];
 
   constructor(user?: AuthUser) {
     super();
@@ -24,6 +25,7 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
     this.login = user.login;
     this.avatar = user.avatar;
     this.passwordHash = user.passwordHash;
+    this.subscribes = user.subscribes ?? [];
   }
 
   public toPOJO(): AuthUser {
@@ -33,7 +35,13 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
       login: this.login,
       avatar: this.avatar,
       passwordHash: this.passwordHash,
+      subscribes: this.subscribes,
     }
+  }
+
+  public async addSubscribe(subscribeId: string): Promise<BlogUserEntity> {
+    this.subscribes.push(subscribeId);
+    return this;
   }
 
   public async setPassword(password: string): Promise<BlogUserEntity> {

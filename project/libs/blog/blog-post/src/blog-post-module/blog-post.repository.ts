@@ -117,7 +117,7 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
     return undefined;
   }
 
-  public async find(query?: BlogPostQuery, userId?: string): Promise<PaginationResult<BlogPostEntity>> {
+  public async find(query?: BlogPostQuery, userIds?: string[]): Promise<PaginationResult<BlogPostEntity>> {
     const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
     const take = query?.limit;
     const where: Prisma.PostWhereInput = {};
@@ -155,10 +155,8 @@ export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, P
         break;
     }
 
-    if (userId) {
-      where.status = query?.status ?? PostStatusType.Published;
-    } else {
-      where.status = PostStatusType.Published;
+    if (userIds?.length > 0) {
+      where.userId = { in: userIds };
     }
 
     const [records, postCount] = await Promise.all([

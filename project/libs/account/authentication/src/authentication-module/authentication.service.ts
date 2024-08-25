@@ -129,4 +129,24 @@ export class AuthenticationService {
 
     return await this.blogUserRepository.update(updatedUser);
   }
+
+  public async subscribe(userId: string, authorId: string) {
+    const existUser = await this.blogUserRepository.findById(userId);
+
+    if (!existUser) {
+      throw new NotFoundException(AuthenticationExceptionMessage.UserNotFound);
+    }
+
+    const author = await this.blogUserRepository.findById(authorId);
+
+    if (!author) {
+      throw new NotFoundException(AuthenticationExceptionMessage.UserNotFound);
+    }
+
+    const updatedUser = await new BlogUserEntity(existUser).addSubscribe(
+      authorId
+    );
+
+    return await this.blogUserRepository.update(updatedUser);
+  }
 }

@@ -14,6 +14,7 @@ import { RequestWithUser } from '../interfaces/request-with-user.interface';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
 import { RequestWithTokenPayload } from '../interfaces/request-with-token-payload.interface';
 import { ChangePasswordDto } from '../dto/change-password.dto';
+import { CreateSubscribeDto } from '../dto/create-subscribe.dto';
 
 @ApiTags('authentication')
 @Controller('auth')
@@ -102,5 +103,20 @@ export class AuthenticationController {
   @Post('check')
   public async checkToken(@Req() { user: payload }: RequestWithTokenPayload) {
     return payload;
+  }
+
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: AuthenticationResponseMessage.UserNotFound
+  })
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Post('subscribe')
+  public async subscribe(@Body() dto: CreateSubscribeDto) {
+    const userData = await this.authService.subscribe(dto.userId, dto.authorId);
+    return fillDto(UserRdo, userData.toPOJO());
   }
 }
