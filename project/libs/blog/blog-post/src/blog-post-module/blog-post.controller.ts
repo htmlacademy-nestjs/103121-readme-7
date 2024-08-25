@@ -195,7 +195,6 @@ export class BlogPostController {
   })
   @Post('/feed')
   public async feed(@Body() userIds: string[], @Query() query: BlogPostQuery) {
-    console.log('here');
     const postsWithPagination = await this.blogPostService
       .getAllPosts(query, userIds);
 
