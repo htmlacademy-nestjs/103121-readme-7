@@ -64,7 +64,6 @@ export class UsersController {
   })
   @Post('login')
   public async login(@Body() loginUserDto: LoginUserDto) {
-    console.log('here');
     const { data } = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/login`, loginUserDto);
     return data;
   }
@@ -147,7 +146,6 @@ export class UsersController {
   @UseInterceptors(InjectUserIdInterceptor)
   @Post('subscribe')
   public async subscribe(@Body() dto: CreateSubscribeDto, @Req() req: Request) {
-    console.log('here');
     const { data } = await this.httpService.axiosRef.post(
       `${ApplicationServiceURL.Users}/subscribe`,
       dto,

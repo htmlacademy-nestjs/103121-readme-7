@@ -25,6 +25,9 @@ export class BlogUserModel extends Document implements AuthUser {
     required: true,
   })
   public passwordHash: string;
+
+  @Prop()
+  subscribes: string[];
 }
 
 export const BlogUserSchema = SchemaFactory.createForClass(BlogUserModel);

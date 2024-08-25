@@ -29,4 +29,7 @@ export class UserRdo {
   })
   @Expose()
   public login: string;
+
+  @Expose()
+  public subscribes: string[];
 }

@@ -183,9 +183,9 @@ Content-Type: application/json
 
 # Subscribe
 POST http://localhost:4000/api/users/subscribe HTTP/1.1
-Authorization: Bearer yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjQyMjkwODcsImV4cCI6MTcyNDIyOTM4N30.ru9gJbqOsLLSo9wM-uaBw-KrWOMIW4x7Jf9_0BkidsE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjliODMzZDE3NmNkOGEyZTFhNjZmZmUiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJsb2dpbiI6Iktla3MiLCJpYXQiOjE3MjQ1Nzc1MDEsImV4cCI6MTcyNDU3NzgwMX0.oiL0bETUFXF-mQS5dEZ_FWWJXBpRLeOvjWewxIuXGWw
 Content-Type: application/json
 
 {
-  "userId": "669b833d176cd8a2e1a66ffe"
+  "authorId": "669b833d176cd8a2e1a66ffe"
 }
