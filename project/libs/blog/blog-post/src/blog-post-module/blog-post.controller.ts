@@ -180,9 +180,30 @@ export class BlogPostController {
   })
   @Post('notify')
   public async sendNewsletter(@Query() query: BlogPostQuery, @Body() dto: NotifyDto) {
-    const posts = await this.blogPostService.getAllPosts(query, dto.userId);
+    const posts = await this.blogPostService.getAllPosts(query, [dto.userId]);
     await this.notifyBlogService.sendNewPosts(
       posts.entities.map((post) => post.toPOJO())
     );
+  }
+
+  @ApiResponse({
+    type: BlogPostWithPaginationRdo,
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+  })
+  @Post('/feed')
+  public async feed(@Body() userIds: string[], @Query() query: BlogPostQuery) {
+    console.log('here');
+    const postsWithPagination = await this.blogPostService
+      .getAllPosts(query, userIds);
+
+      const result = {
+        ...postsWithPagination,
+        entities: postsWithPagination.entities.map((post) => post.toPOJO()),
+      }
+
+    return fillDto(BlogPostWithPaginationRdo, result);
   }
 }
