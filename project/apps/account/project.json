@@ -27,6 +27,15 @@
           "buildTarget": "account:build:production"
         }
       }
+    },
+    "buildImage": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run account:build",
+          "docker build --file ./apps/account/Dockerfile --tag readme.account:latest ."
+        ]
+      }
     }
   }
 }
