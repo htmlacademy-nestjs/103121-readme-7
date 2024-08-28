@@ -1,0 +1,7 @@
+webservers:
+  hosts:
+    82.148.28.32:
+      ansible_connection: ssh
+      ansible_user: artem
+      ansible_ssh_private_key_file: /Users/artem.trikashnyi/.ssh/njs
+      ansible_python_interpreter: /usr/bin/python3.10

@@ -6,6 +6,14 @@
   "tags": [],
   "targets": {
     "serve": {
+      "build": {
+        "executor": "@nx/webpack:webpack",
+        "options": {
+          "webpackConfig": "apps/notify/webpack.config.js",
+          "outputPath": "dist/apps/notify",
+          "generatePackageJson": true
+        }
+      },
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {

@@ -11,6 +11,14 @@
       "options": {
         "buildTarget": "api:build"
       },
+      "build": {
+        "executor": "@nx/webpack:webpack",
+        "options": {
+          "webpackConfig": "apps/api/webpack.config.js",
+          "outputPath": "dist/apps/api",
+          "generatePackageJson": true
+        }
+      },
       "configurations": {
         "development": {
           "buildTarget": "api:build:development"

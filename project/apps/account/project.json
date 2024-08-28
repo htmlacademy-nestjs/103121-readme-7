@@ -5,6 +5,14 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "options": {
+        "webpackConfig": "apps/account/webpack.config.js",
+        "outputPath": "dist/apps/account",
+        "generatePackageJson": true
+      }
+    },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
@@ -18,6 +26,15 @@
         "production": {
           "buildTarget": "account:build:production"
         }
+      }
+    },
+    "buildImage": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run account:build",
+          "docker build --file ./apps/account/Dockerfile --tag readme.account:latest ."
+        ]
       }
     }
   }
