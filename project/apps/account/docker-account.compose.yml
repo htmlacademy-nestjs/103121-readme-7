@@ -1,0 +1,38 @@
+version: '3.9'
+services:
+  readme.account.mongodb:
+    image: mongo:4.4
+    restart: always
+    container_name: readme.account.mongodb
+
+    env_file:
+      - readme.account.env
+
+    ports:
+      - 27020:27020
+
+    volumes:
+      - readme.mongodb.account:/data/db
+
+    networks:
+      - readme.account.network
+
+  readme.account:
+    container_name: readme.account
+    depends_on:
+      - readme.account.mongodb
+    restart: always
+    image: readme.account:latest
+    env_file:
+      - readme.account.env
+    ports:
+      - 3001:3001
+    networks:
+      - readme.account.network
+
+volumes:
+  readme.mongodb.account:
+
+networks:
+  readme.account.network:
+    driver: bridge
